@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { SectionContainer } from "@/components/ui/section-container";
 import { SectionHeader } from "@/components/ui/section-header";
-import { categories } from "@/data/categories";
+import Image from "next/image";
 
 // Create a simplified categories array for display
 const displayCategories = [
@@ -90,7 +90,9 @@ export function CategoriesSection() {
                 {/* Desktop: Full-width image */}
                 <div className="hidden md:block p-3">
                   <div className="relative mb-4">
-                    <img
+                    <Image
+                      width={300}
+                      height={128}
                       src={category.image}
                       alt={category.name}
                       className="w-full h-32 object-cover"

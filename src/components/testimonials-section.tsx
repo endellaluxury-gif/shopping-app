@@ -1,18 +1,19 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { Card } from "@/components/ui/card"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Star, Quote, ChevronLeft, ChevronRight } from "lucide-react"
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation, Pagination, Autoplay } from 'swiper/modules'
-import { useRef, useState } from 'react'
-import { SectionContainer } from "./ui/section-container"
+import { motion } from "framer-motion";
+import { Card } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Star, Quote, ChevronLeft, ChevronRight } from "lucide-react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import { useRef, useState } from "react";
+import type { Swiper as SwiperType } from "swiper";
+import { SectionContainer } from "./ui/section-container";
 
 // Import Swiper styles
-import 'swiper/css'
-import 'swiper/css/navigation'
-import 'swiper/css/pagination'
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 // Custom styles for equal height cards
 const swiperStyles = `
@@ -23,7 +24,7 @@ const swiperStyles = `
     height: auto !important;
     display: flex !important;
   }
-`
+`;
 
 const testimonials = [
   {
@@ -80,14 +81,14 @@ const testimonials = [
       "Been shopping here for months now. Consistently great products and fast shipping. Highly recommend to anyone!",
     avatar: "/placeholder-user.jpg",
   },
-]
+];
 
 export function TestimonialsSection() {
-  const swiperRef = useRef<any>(null)
-  const [activeSlide, setActiveSlide] = useState(0)
+  const swiperRef = useRef<SwiperType | null>(null);
+  const [activeSlide, setActiveSlide] = useState(0);
 
   return (
-    <section className="py-4 lg:py-8" style={{ backgroundColor: '#EDF2EE' }}>
+    <section className="py-4 lg:py-8" style={{ backgroundColor: "#EDF2EE" }}>
       <style dangerouslySetInnerHTML={{ __html: swiperStyles }} />
       <SectionContainer maxWidth="1440" padding="sm">
         <motion.div
@@ -97,7 +98,9 @@ export function TestimonialsSection() {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Client Testimonials</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+            Client Testimonials
+          </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Hear what our customers say about their experience with us
           </p>
@@ -122,18 +125,18 @@ export function TestimonialsSection() {
 
           <Swiper
             onSwiper={(swiper) => {
-              swiperRef.current = swiper
+              swiperRef.current = swiper;
             }}
             onSlideChange={(swiper) => {
-              setActiveSlide(swiper.activeIndex)
+              setActiveSlide(swiper.activeIndex);
             }}
             modules={[Navigation, Autoplay]}
             spaceBetween={24}
             slidesPerView={1}
             autoHeight={false}
             //autoplay={{
-             // delay: 4000,
-              //disableOnInteraction: false,
+            // delay: 4000,
+            //disableOnInteraction: false,
             //}}
             breakpoints={{
               640: {
@@ -169,7 +172,9 @@ export function TestimonialsSection() {
                             <Star
                               key={i}
                               className={`h-4 w-4 ${
-                                i < testimonial.rating ? "fill-[#FF8A00] text-[#FF8A00]" : "text-gray-300"
+                                i < testimonial.rating
+                                  ? "fill-[#FF8A00] text-[#FF8A00]"
+                                  : "text-gray-300"
                               }`}
                             />
                           ))}
@@ -179,13 +184,18 @@ export function TestimonialsSection() {
 
                       {/* Testimonial Text */}
                       <div className="flex-1 space-y-3">
-                        <p className="text-gray-700 leading-relaxed text-sm lg:text-base">"{testimonial.comment}"</p>
+                        <p className="text-gray-700 leading-relaxed text-sm lg:text-base">
+                          &quot;{testimonial.comment}&quot;
+                        </p>
                       </div>
 
                       {/* Customer Info */}
                       <div className="flex items-center space-x-3 pt-4 border-t border-gray-200 mt-auto">
                         <Avatar className="h-10 w-10">
-                          <AvatarImage src={testimonial.avatar || "/placeholder.svg"} alt={testimonial.name} />
+                          <AvatarImage
+                            src={testimonial.avatar || "/placeholder.svg"}
+                            alt={testimonial.name}
+                          />
                           <AvatarFallback className="text-sm">
                             {testimonial.name
                               .split(" ")
@@ -194,8 +204,12 @@ export function TestimonialsSection() {
                           </AvatarFallback>
                         </Avatar>
                         <div className="space-y-1">
-                          <p className="font-semibold text-gray-900 text-sm lg:text-base">{testimonial.name}</p>
-                          <p className="text-xs lg:text-sm text-gray-500">Customer</p>
+                          <p className="font-semibold text-gray-900 text-sm lg:text-base">
+                            {testimonial.name}
+                          </p>
+                          <p className="text-xs lg:text-sm text-gray-500">
+                            Customer
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -212,13 +226,13 @@ export function TestimonialsSection() {
                 key={index}
                 onClick={() => swiperRef.current?.slideTo(index)}
                 className={`w-3 h-3 rounded-full transition-colors ${
-                  index === activeSlide ? 'bg-[var(--primary)]' : 'bg-gray-400'
+                  index === activeSlide ? "bg-[var(--primary)]" : "bg-gray-400"
                 }`}
               />
             ))}
           </div>
         </div>
-        </SectionContainer>
+      </SectionContainer>
     </section>
-  )
+  );
 }

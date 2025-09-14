@@ -22,9 +22,9 @@ const AuthWrapper = ({
         <div className="absolute bottom-8 left-8 right-8 bg-[#D9D9D9]/25 backdrop-blur-sm rounded-lg p-6 text-white">
           <div className="mb-4">
             <p className="text-sm leading-relaxed mb-4">
-              "As a business owner, I appreciate the wholesale pricing and
+              &quot;As a business owner, I appreciate the wholesale pricing and
               quality products that Pride of Africa offers. Their B2B platform
-              has made ordering supplies much easier."
+              has made ordering supplies much easier.&quot;
             </p>
           </div>
           <div>

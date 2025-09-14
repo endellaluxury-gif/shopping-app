@@ -34,7 +34,7 @@ const ContactUs = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    // formState: { errors, isSubmitting },
     reset,
   } = useForm<FormData>({
     resolver: yupResolver(schema),

@@ -7,8 +7,7 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import { ArrowLeft, CheckCircle } from "lucide-react";
-import Image from "next/image";
+import { CheckCircle } from "lucide-react";
 import Link from "next/link";
 
 const VerifyEmail = () => {
@@ -27,12 +26,12 @@ const VerifyEmail = () => {
       }, 2000);
     }
   };
-
+  /*
   const handleResendCode = () => {
     // Handle resend logic here
     console.log("Resending OTP code");
   };
-
+*/
   return (
     <div className="w-full flex flex-col mx-auto items-center justify-center p-8 lg:p-12 lg:mt-24">
       <div className="w-full space-y-8 items-center flex flex-col">
@@ -80,7 +79,7 @@ const VerifyEmail = () => {
                 {isVerifying ? "Verifying..." : "Verify"}
               </Button>
               <p className="text-[#61738A] items-center gap-2">
-                Didn't receive it? Resend code in 30s
+                Didn&apos;t receive it? Resend code in 30s
               </p>
               {/*<div className="text-center">
                 <Button

@@ -104,7 +104,7 @@ const Login = () => {
           {/* Sign Up Link */}
           <div className="text-center">
             <span className="text-sm text-gray-900">
-              Don't have an account?{" "}
+              Don&apos;t have an account?{" "}
               <Link href="/signup" className="underline text-[#312ECB]">
                 Sign up
               </Link>

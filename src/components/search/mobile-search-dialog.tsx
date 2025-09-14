@@ -1,110 +1,118 @@
-"use client"
+"use client";
 
-import { useState, useEffect, useRef } from "react"
-import { Search, Clock, TrendingUp, X, ArrowLeft } from "lucide-react"
-import { motion, AnimatePresence } from "framer-motion"
-import Image from "next/image"
-import { SearchResult, getSuggestions, searchProducts } from "@/data/search-data"
-import { getRecentSearches, removeRecentSearch } from "@/lib/search-storage"
-import { useDebounce } from "@/hooks/use-debounce"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { useState, useEffect, useRef } from "react";
+import { Search, Clock, TrendingUp, X, ArrowLeft } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
+import {
+  SearchResult,
+  getSuggestions,
+  searchProducts,
+} from "@/data/search-data";
+import { getRecentSearches, removeRecentSearch } from "@/lib/search-storage";
+import { useDebounce } from "@/hooks/use-debounce";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 interface MobileSearchDialogProps {
-  isOpen: boolean
-  onClose: () => void
-  onSearch: (query: string) => void
+  isOpen: boolean;
+  onClose: () => void;
+  onSearch: (query: string) => void;
 }
 
-export function MobileSearchDialog({ isOpen, onClose, onSearch }: MobileSearchDialogProps) {
-  const [query, setQuery] = useState("")
-  const [searchResults, setSearchResults] = useState<SearchResult[]>([])
-  const [suggestions, setSuggestions] = useState<string[]>([])
-  const [recentSearches, setRecentSearches] = useState(getRecentSearches())
-  const [isLoading, setIsLoading] = useState(false)
-  const inputRef = useRef<HTMLInputElement>(null)
-  
+export function MobileSearchDialog({
+  isOpen,
+  onClose,
+  onSearch,
+}: MobileSearchDialogProps) {
+  const [query, setQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [recentSearches, setRecentSearches] = useState(getRecentSearches());
+  const [isLoading, setIsLoading] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
   // Debounce the search query
-  const debouncedQuery = useDebounce(query, 500)
+  const debouncedQuery = useDebounce(query, 500);
 
   useEffect(() => {
     if (isOpen && inputRef.current) {
-      inputRef.current.focus()
+      inputRef.current.focus();
     }
-  }, [isOpen])
+  }, [isOpen]);
 
   useEffect(() => {
     if (debouncedQuery.trim()) {
-      setIsLoading(true)
-      
+      setIsLoading(true);
+
       // Simulate API call delay
       const timer = setTimeout(() => {
-        const results = searchProducts(debouncedQuery)
-        const suggestionResults = getSuggestions(debouncedQuery)
-        setSearchResults(results)
-        setSuggestions(suggestionResults)
-        setIsLoading(false)
-      }, 300) // Simulate network delay
-      
-      return () => clearTimeout(timer)
+        const results = searchProducts(debouncedQuery);
+        const suggestionResults = getSuggestions(debouncedQuery);
+        setSearchResults(results);
+        setSuggestions(suggestionResults);
+        setIsLoading(false);
+      }, 300); // Simulate network delay
+
+      return () => clearTimeout(timer);
     } else {
-      setSearchResults([])
+      setSearchResults([]);
       // Show popular searches when no query
-      setSuggestions(getSuggestions(''))
-      setIsLoading(false)
+      setSuggestions(getSuggestions(""));
+      setIsLoading(false);
     }
-  }, [debouncedQuery])
+  }, [debouncedQuery]);
 
   useEffect(() => {
-    setRecentSearches(getRecentSearches())
-  }, [isOpen])
+    setRecentSearches(getRecentSearches());
+  }, [isOpen]);
 
   const handleSuggestionClick = (suggestion: string) => {
-    setQuery(suggestion)
-    setIsLoading(true) // Show loading immediately
-    onSearch(suggestion)
+    setQuery(suggestion);
+    setIsLoading(true); // Show loading immediately
+    onSearch(suggestion);
     // Refresh recent searches after search
-    setTimeout(() => setRecentSearches(getRecentSearches()), 100)
-    onClose()
-  }
+    setTimeout(() => setRecentSearches(getRecentSearches()), 100);
+    onClose();
+  };
 
   const handleRecentSearchClick = (recentQuery: string) => {
-    setQuery(recentQuery)
-    setIsLoading(true) // Show loading immediately
-    onSearch(recentQuery)
+    setQuery(recentQuery);
+    setIsLoading(true); // Show loading immediately
+    onSearch(recentQuery);
     // Refresh recent searches after search
-    setTimeout(() => setRecentSearches(getRecentSearches()), 100)
-    onClose()
-  }
+    setTimeout(() => setRecentSearches(getRecentSearches()), 100);
+    onClose();
+  };
 
   const handleRemoveRecentSearch = (e: React.MouseEvent, searchId: string) => {
-    e.stopPropagation()
-    removeRecentSearch(searchId)
-    setRecentSearches(getRecentSearches())
-  }
+    e.stopPropagation();
+    removeRecentSearch(searchId);
+    setRecentSearches(getRecentSearches());
+  };
 
   const handleResultClick = (result: SearchResult) => {
-    setIsLoading(true) // Show loading immediately
-    onSearch(result.title)
+    setIsLoading(true); // Show loading immediately
+    onSearch(result.title);
     // Refresh recent searches after search
-    setTimeout(() => setRecentSearches(getRecentSearches()), 100)
-    onClose()
-  }
+    setTimeout(() => setRecentSearches(getRecentSearches()), 100);
+    onClose();
+  };
 
   const handleSearch = () => {
     if (query.trim()) {
-      setIsLoading(true) // Show loading immediately
-      onSearch(query)
+      setIsLoading(true); // Show loading immediately
+      onSearch(query);
       // Refresh recent searches after search
-      setTimeout(() => setRecentSearches(getRecentSearches()), 100)
-      onClose()
+      setTimeout(() => setRecentSearches(getRecentSearches()), 100);
+      onClose();
     }
-  }
+  };
 
   const handleClose = () => {
-    setQuery("")
-    onClose()
-  }
+    setQuery("");
+    onClose();
+  };
 
   return (
     <AnimatePresence>
@@ -118,7 +126,7 @@ export function MobileSearchDialog({ isOpen, onClose, onSearch }: MobileSearchDi
             className="fixed inset-0 bg-black/50 z-50"
             onClick={handleClose}
           />
-          
+
           {/* Dialog */}
           <motion.div
             initial={{ y: "100%" }}
@@ -145,11 +153,10 @@ export function MobileSearchDialog({ isOpen, onClose, onSearch }: MobileSearchDi
                     placeholder="Search products..."
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                    onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                     className="pl-10 pr-4 focus:ring-0 focus-visible:ring-0 focus:border-0"
                   />
                 </div>
-                
               </div>
             </div>
 
@@ -173,10 +180,14 @@ export function MobileSearchDialog({ isOpen, onClose, onSearch }: MobileSearchDi
                       >
                         <div className="flex items-center">
                           <Search className="h-4 w-4 text-gray-400 mr-3" />
-                          <span className="text-sm text-gray-700">{search.query}</span>
+                          <span className="text-sm text-gray-700">
+                            {search.query}
+                          </span>
                         </div>
                         <button
-                          onClick={(e) => handleRemoveRecentSearch(e, search.id)}
+                          onClick={(e) =>
+                            handleRemoveRecentSearch(e, search.id)
+                          }
                           className="opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-200 rounded"
                         >
                           <X className="h-3 w-3 text-gray-400" />
@@ -202,7 +213,9 @@ export function MobileSearchDialog({ isOpen, onClose, onSearch }: MobileSearchDi
                         className="flex items-center p-3 hover:bg-gray-50 rounded cursor-pointer"
                       >
                         <Search className="h-4 w-4 text-gray-400 mr-3" />
-                        <span className="text-sm text-gray-700">{suggestion}</span>
+                        <span className="text-sm text-gray-700">
+                          {suggestion}
+                        </span>
                       </div>
                     ))}
                   </div>
@@ -213,7 +226,9 @@ export function MobileSearchDialog({ isOpen, onClose, onSearch }: MobileSearchDi
               {query.trim() && (
                 <div className="p-4">
                   <h3 className="text-sm font-semibold text-gray-800 mb-3">
-                    {isLoading ? 'Searching...' : `Search Results (${searchResults.length})`}
+                    {isLoading
+                      ? "Searching..."
+                      : `Search Results (${searchResults.length})`}
                   </h3>
                   {isLoading ? (
                     <div className="space-y-3">
@@ -249,10 +264,16 @@ export function MobileSearchDialog({ isOpen, onClose, onSearch }: MobileSearchDi
                             </div>
                           )}
                           <div className="flex-1">
-                            <h4 className="font-medium text-gray-900">{result.title}</h4>
-                            <p className="text-sm text-gray-500">{result.category}</p>
+                            <h4 className="font-medium text-gray-900">
+                              {result.title}
+                            </h4>
+                            <p className="text-sm text-gray-500">
+                              {result.category}
+                            </p>
                             {result.price && (
-                              <p className="text-sm font-semibold text-green-600">${result.price}</p>
+                              <p className="text-sm font-semibold text-green-600">
+                                ${result.price}
+                              </p>
                             )}
                           </div>
                           <div className="text-xs text-gray-400 capitalize">
@@ -264,8 +285,12 @@ export function MobileSearchDialog({ isOpen, onClose, onSearch }: MobileSearchDi
                   ) : (
                     <div className="text-center py-12">
                       <Search className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-                      <p className="text-sm text-gray-500">No results found for "{query}"</p>
-                      <p className="text-xs text-gray-400 mt-2">Try a different search term</p>
+                      <p className="text-sm text-gray-500">
+                        No results found for &quot;{query}&quot;
+                      </p>
+                      <p className="text-xs text-gray-400 mt-2">
+                        Try a different search term
+                      </p>
                     </div>
                   )}
                 </div>
@@ -275,5 +300,5 @@ export function MobileSearchDialog({ isOpen, onClose, onSearch }: MobileSearchDi
         </>
       )}
     </AnimatePresence>
-  )
+  );
 }

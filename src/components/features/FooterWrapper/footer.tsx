@@ -85,9 +85,10 @@ export function Footer() {
               </div>
 
               <p className="text-white/80 max-w-md text-sm">
-                Endella Beauty is the UK's premier destination for luxury beauty
-                and skincare products. We are specialists in premium cosmetics,
-                skincare essentials, and beauty products of the highest quality.
+                Endella Beauty is the UK&apos;s premier destination for luxury
+                beauty and skincare products. We are specialists in premium
+                cosmetics, skincare essentials, and beauty products of the
+                highest quality.
               </p>
 
               <div className="space-y-2">
