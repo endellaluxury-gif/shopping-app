@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import Image from "next/image"
+import { motion } from "framer-motion";
+import Image from "next/image";
 
 export function Loading() {
   return (
@@ -14,19 +14,19 @@ export function Loading() {
       >
         {/* Logo */}
         <motion.div
-          animate={{ 
+          animate={{
             scale: [1, 1.1, 1],
-            rotate: [0, 5, -5, 0]
+            rotate: [0, 5, -5, 0],
           }}
-          transition={{ 
+          transition={{
             duration: 2,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: "easeInOut",
           }}
           className="relative"
         >
           <Image
-            src="/logo/logo.svg"
+            src="/endella.jpg"
             alt="Pride of Afrika"
             width={120}
             height={120}
@@ -42,10 +42,10 @@ export function Loading() {
           className="text-center"
         >
           <h2 className="text-2xl md:text-3xl font-bold text-[var(--primary)] mb-2">
-            Pride of Afrika
+            Endella Luxury
           </h2>
           <p className="text-gray-600 text-sm md:text-base">
-            Loading fresh African Caribbean foods...
+            Loading fresh Endella luxury products...
           </p>
         </motion.div>
 
@@ -61,12 +61,12 @@ export function Loading() {
               key={i}
               animate={{
                 scale: [1, 1.2, 1],
-                opacity: [0.5, 1, 0.5]
+                opacity: [0.5, 1, 0.5],
               }}
               transition={{
                 duration: 1.5,
                 repeat: Infinity,
-                delay: i * 0.2
+                delay: i * 0.2,
               }}
               className="w-3 h-3 bg-[var(--primary)] rounded-full"
             />
@@ -89,6 +89,5 @@ export function Loading() {
         </motion.div>
       </motion.div>
     </div>
-  )
+  );
 }
-
