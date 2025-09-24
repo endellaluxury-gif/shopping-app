@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { StarRating } from "@/components/ui/star";
 import { ShoppingCart, Heart, Eye } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 interface Product {
   id: number;
@@ -39,6 +40,7 @@ export function ProductCard({
   onProductClick,
 }: ProductCardProps) {
   const [isWishlisted, setIsWishlisted] = useState(false);
+  const router = useRouter();
 
   const handleWishlistClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -57,6 +59,8 @@ export function ProductCard({
   };
 
   const handleCardClick = () => {
+    // Navigate to product details page
+    router.push(`/product/${product.id}`);
     onProductClick?.(product);
   };
 
