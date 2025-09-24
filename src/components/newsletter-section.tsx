@@ -21,7 +21,7 @@ export function NewsletterSection() {
       <section
         className="py-16 lg:py-24 relative overflow-hidden rounded-2xl"
         style={{
-          backgroundImage: "url('/placeholder.svg')",
+          backgroundImage: "url('/subscribe.png')",
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",

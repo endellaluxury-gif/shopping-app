@@ -9,241 +9,181 @@ export interface Category {
 export const categories: Category[] = [
   {
     id: 1,
-    name: "Makeup",
+    name: "Endella Nature Beauty",
     icon: "💄",
     subCategories: [
       {
         id: 11,
-        name: "Face Makeup",
-        subCategories: [
-          { id: 111, name: "Foundation" },
-          { id: 112, name: "Concealer" },
-          { id: 113, name: "Powder" },
-          { id: 114, name: "Blush" },
-          { id: 115, name: "Bronzer" },
-          { id: 116, name: "Highlighter" },
-        ],
+        name: "EDLNature breast firm OIL",
       },
       {
         id: 12,
-        name: "Eye Makeup",
-        subCategories: [
-          { id: 121, name: "Eyeshadow" },
-          { id: 122, name: "Eyeliner" },
-          { id: 123, name: "Mascara" },
-          { id: 124, name: "Eyebrow Products" },
-          { id: 125, name: "False Lashes" },
-        ],
+        name: "EDL breast boost support powder",
       },
       {
         id: 13,
-        name: "Lip Makeup",
-        subCategories: [
-          { id: 131, name: "Lipstick" },
-          { id: 132, name: "Lip Gloss" },
-          { id: 133, name: "Lip Liner" },
-          { id: 134, name: "Lip Balm" },
-        ],
+        name: "Edl joint/nerves reliever",
       },
     ],
   },
   {
     id: 2,
-    name: "Skincare",
+    name: "EDL SHIRTS / VALID SET",
     icon: "🧴",
     subCategories: [
       {
         id: 21,
-        name: "Cleansers",
-        subCategories: [
-          { id: 211, name: "Face Wash" },
-          { id: 212, name: "Cleansing Oil" },
-          { id: 213, name: "Micellar Water" },
-          { id: 214, name: "Exfoliators" },
-        ],
+        name: "EDL Premium Cotton T-Shirt",
       },
       {
         id: 22,
-        name: "Moisturizers",
-        subCategories: [
-          { id: 221, name: "Face Cream" },
-          { id: 222, name: "Face Lotion" },
-          { id: 223, name: "Night Cream" },
-          { id: 224, name: "Eye Cream" },
-        ],
+        name: "EDL Luxury Polo Shirt",
       },
       {
         id: 23,
-        name: "Serums & Treatments",
-        subCategories: [
-          { id: 231, name: "Anti-Aging" },
-          { id: 232, name: "Vitamin C" },
-          { id: 233, name: "Retinol" },
-          { id: 234, name: "Hyaluronic Acid" },
-        ],
+        name: "EDL Classic V-Neck Tee",
+      },
+      {
+        id: 24,
+        name: "EDL Organic Cotton Shirt",
       },
     ],
   },
   {
     id: 3,
-    name: "Hair Care",
+    name: "SHORTS",
     icon: "💇‍♀️",
     subCategories: [
       {
         id: 31,
-        name: "Shampoo & Conditioner",
-        subCategories: [
-          { id: 311, name: "Shampoo" },
-          { id: 312, name: "Conditioner" },
-          { id: 313, name: "2-in-1 Products" },
-          { id: 314, name: "Dry Shampoo" },
-        ],
+        name: "EDL Athletic Shorts",
       },
       {
         id: 32,
-        name: "Hair Treatments",
-        subCategories: [
-          { id: 321, name: "Hair Masks" },
-          { id: 322, name: "Hair Oils" },
-          { id: 323, name: "Leave-in Conditioner" },
-          { id: 324, name: "Hair Serums" },
-        ],
+        name: "EDL Casual Denim Shorts",
       },
       {
         id: 33,
-        name: "Styling Products",
-        subCategories: [
-          { id: 331, name: "Hair Spray" },
-          { id: 332, name: "Gel" },
-          { id: 333, name: "Mousse" },
-          { id: 334, name: "Heat Protectant" },
-        ],
+        name: "EDL Comfort Fit Shorts",
+      },
+      {
+        id: 34,
+        name: "EDL Summer Shorts",
       },
     ],
   },
   {
     id: 4,
-    name: "Fragrance",
+    name: "EDL SPECIAL",
     icon: "🌸",
     subCategories: [
       {
         id: 41,
-        name: "Perfumes",
-        subCategories: [
-          { id: 411, name: "Women's Perfume" },
-          { id: 412, name: "Men's Cologne" },
-          { id: 413, name: "Unisex Fragrances" },
-        ],
+        name: "EDL Signature Perfume",
       },
       {
         id: 42,
-        name: "Body Care",
-        subCategories: [
-          { id: 421, name: "Body Lotion" },
-          { id: 422, name: "Body Wash" },
-          { id: 423, name: "Body Oil" },
-          { id: 424, name: "Body Scrub" },
-        ],
+        name: "EDL Luxury Body Lotion",
+      },
+      {
+        id: 43,
+        name: "EDL Premium Body Oil",
+      },
+      {
+        id: 44,
+        name: "EDL Exotic Fragrance Set",
       },
     ],
   },
   {
     id: 5,
-    name: "Nail Care",
+    name: "EDL ROYALTY",
     icon: "💅",
     subCategories: [
       {
         id: 51,
-        name: "Nail Polish",
-        subCategories: [
-          { id: 511, name: "Regular Polish" },
-          { id: 512, name: "Gel Polish" },
-          { id: 513, name: "Nail Art" },
-        ],
+        name: "EDL Royal Nail Polish Set",
       },
       {
         id: 52,
-        name: "Nail Tools",
-        subCategories: [
-          { id: 521, name: "Nail Files" },
-          { id: 522, name: "Cuticle Tools" },
-          { id: 523, name: "Nail Clippers" },
-        ],
+        name: "EDL Premium Gel Polish",
+      },
+      {
+        id: 53,
+        name: "EDL Luxury Nail Art Kit",
+      },
+      {
+        id: 54,
+        name: "EDL Professional Nail Tools",
       },
     ],
   },
   {
     id: 6,
-    name: "Tools & Brushes",
+    name: "JACKET / HOODIE",
     icon: "🖌️",
     subCategories: [
       {
         id: 61,
-        name: "Makeup Brushes",
-        subCategories: [
-          { id: 611, name: "Face Brushes" },
-          { id: 612, name: "Eye Brushes" },
-          { id: 613, name: "Brush Sets" },
-        ],
+        name: "EDL Premium Jacket",
       },
       {
         id: 62,
-        name: "Beauty Tools",
-        subCategories: [
-          { id: 621, name: "Sponges" },
-          { id: 622, name: "Tweezers" },
-          { id: 623, name: "Mirrors" },
-        ],
+        name: "EDL Comfort Hoodie",
+      },
+      {
+        id: 63,
+        name: "EDL Fashion Blazer",
+      },
+      {
+        id: 64,
+        name: "EDL Casual Cardigan",
       },
     ],
   },
   {
     id: 7,
-    name: "Men's Grooming",
+    name: "PHANTOM TROUSER",
     icon: "👨",
     subCategories: [
       {
         id: 71,
-        name: "Skincare",
-        subCategories: [
-          { id: 711, name: "Face Wash" },
-          { id: 712, name: "Moisturizer" },
-          { id: 713, name: "Aftershave" },
-        ],
+        name: "EDL Phantom Trousers",
       },
       {
         id: 72,
-        name: "Hair Care",
-        subCategories: [
-          { id: 721, name: "Shampoo" },
-          { id: 722, name: "Styling Products" },
-          { id: 723, name: "Beard Care" },
-        ],
+        name: "EDL Classic Pants",
+      },
+      {
+        id: 73,
+        name: "EDL Formal Trousers",
+      },
+      {
+        id: 74,
+        name: "EDL Casual Pants",
       },
     ],
   },
   {
     id: 8,
-    name: "Bath & Body",
+    name: "KIMONO",
     icon: "🛁",
     subCategories: [
       {
         id: 81,
-        name: "Bath Products",
-        subCategories: [
-          { id: 811, name: "Bath Bombs" },
-          { id: 812, name: "Bubble Bath" },
-          { id: 813, name: "Bath Salts" },
-        ],
+        name: "EDL Traditional Kimono",
       },
       {
         id: 82,
-        name: "Body Care",
-        subCategories: [
-          { id: 821, name: "Body Lotion" },
-          { id: 822, name: "Body Butter" },
-          { id: 823, name: "Hand Cream" },
-        ],
+        name: "EDL Modern Kimono",
+      },
+      {
+        id: 83,
+        name: "EDL Silk Kimono",
+      },
+      {
+        id: 84,
+        name: "EDL Casual Kimono",
       },
     ],
   },

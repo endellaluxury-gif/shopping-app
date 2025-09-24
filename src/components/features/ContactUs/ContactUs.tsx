@@ -119,8 +119,7 @@ const ContactUs = () => {
           </div>
           <p className="text-[16px] font-semibold">Location</p>
           <p className="text-[13px] font-medium">
-            Pride of Africa Foods,135 New John Street West, Birmingham B6 4LD,
-            United Kingdom
+            Benin City- 344, Sapele Road, Edo State, Nigeria
           </p>
         </div>
         <div className="bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col items-center justify-center gap-5 p-[25px] min-w-[250px] h-full">
@@ -128,16 +127,14 @@ const ContactUs = () => {
             <Mail className="text-white" />
           </div>
           <p className="text-[16px] font-semibold">Email Us</p>
-          <p className="text-[13px] font-medium">
-            sales.prideofafrica@gmail.com
-          </p>
+          <p className="text-[13px] font-medium">endella.luxury@gmail.com</p>
         </div>
         <div className="bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col items-center justify-center gap-5 p-[25px] min-w-[250px] h-full">
           <div className="bg-[#00B206] rounded-full p-3 flex items-center justify-center">
             <Phone className="text-white" />
           </div>
           <p className="text-[16px] font-semibold">Call Us</p>
-          <p className="text-[13px] font-medium">+44 121 714 2221</p>
+          <p className="text-[13px] font-medium">+234 706 595 2662</p>
         </div>
       </div>
     </SectionContainer>

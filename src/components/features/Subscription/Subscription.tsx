@@ -4,7 +4,7 @@ import React from "react";
 const Subscription = () => {
   return (
     <SectionContainer className="mt-10 max-w-[1140px] w-full mx-auto">
-      <div className="w-full h-full lg:min-h-[360px] bg-[url('/aboutus/subscription.png')] rounded-xl bg-cover bg-center flex flex-col items-center justify-center gap-5">
+      <div className="w-full h-full lg:min-h-[360px] bg-[url('/subscribe.png')] rounded-xl bg-cover bg-center flex flex-col items-center justify-center gap-5">
         <h3 className="font-bold text-white text-[32px] text-center max-w-[400px]">
           Groceries Made Simple Straight to Your Door
         </h3>

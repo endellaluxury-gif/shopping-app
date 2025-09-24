@@ -211,9 +211,7 @@ export function MobileMenu({
                 ) : (
                   <div className="space-y-3">
                     <div className="flex items-center gap-2 text-blue-100">
-                      <span className="text-sm">
-                        Welcome to Pride of Africa
-                      </span>
+                      <span className="text-sm">Welcome to Endella</span>
                     </div>
                     <div className="flex gap-2 mt-4">
                       <Button
@@ -260,17 +258,9 @@ export function MobileMenu({
                           <Home className="h-5 w-5 text-gray-500" />
                           <span>Home</span>
                         </Link>
-                        <Link
-                          href="/shop"
-                          onClick={handleClose}
-                          className="flex items-center gap-3 text-sm p-2 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
-                        >
-                          <ShoppingBag className="h-5 w-5 text-gray-500" />
-                          <span>Shop</span>
-                        </Link>
 
                         <Link
-                          href="/about"
+                          href="/about-us"
                           onClick={handleClose}
                           className="flex items-center gap-3 text-sm p-2 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
                         >
@@ -286,7 +276,7 @@ export function MobileMenu({
                           <span>FAQ</span>
                         </Link>
                         <Link
-                          href="/contact"
+                          href="/contact-us"
                           onClick={handleClose}
                           className="flex items-center gap-3 text-sm p-2 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
                         >
