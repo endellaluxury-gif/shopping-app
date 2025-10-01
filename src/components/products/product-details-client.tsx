@@ -15,22 +15,19 @@ import {
   Truck,
   Shield,
   RotateCcw,
-  ArrowLeft,
 } from "lucide-react";
 import { SectionContainer } from "@/components/ui/section-container";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { products } from "@/lib/products-data";
+import { products, Product } from "@/lib/products-data";
 
 interface ProductDetailsClientProps {
   productId: string;
 }
 
 export function ProductDetailsClient({ productId }: ProductDetailsClientProps) {
-  const router = useRouter();
-  const [product, setProduct] = useState<any>(null);
+  const [product, setProduct] = useState<Product | null>(null);
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
@@ -147,16 +144,17 @@ export function ProductDetailsClient({ productId }: ProductDetailsClientProps) {
 
               {/* Badges */}
               <div className="absolute top-4 left-4 flex flex-col gap-2">
-                {product.originalPrice > product.price && (
-                  <Badge className="bg-red-500 text-white">
-                    {Math.round(
-                      ((product.originalPrice - product.price) /
-                        product.originalPrice) *
-                        100
-                    )}
-                    % OFF
-                  </Badge>
-                )}
+                {product.originalPrice &&
+                  product.originalPrice > product.price && (
+                    <Badge className="bg-red-500 text-white">
+                      {Math.round(
+                        ((product.originalPrice - product.price) /
+                          product.originalPrice) *
+                          100
+                      )}
+                      % OFF
+                    </Badge>
+                  )}
                 <Badge variant="secondary" className="bg-green-500 text-white">
                   In Stock
                 </Badge>
@@ -296,11 +294,12 @@ export function ProductDetailsClient({ productId }: ProductDetailsClientProps) {
               <span className="text-3xl font-bold text-gray-900">
                 £{product.price}
               </span>
-              {product.originalPrice > product.price && (
-                <span className="text-xl text-gray-500 line-through">
-                  £{product.originalPrice}
-                </span>
-              )}
+              {product.originalPrice &&
+                product.originalPrice > product.price && (
+                  <span className="text-xl text-gray-500 line-through">
+                    £{product.originalPrice}
+                  </span>
+                )}
             </div>
 
             {/* Description */}

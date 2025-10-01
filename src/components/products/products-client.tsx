@@ -9,11 +9,7 @@ import { SectionHeader } from "@/components/ui/section-header";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Filter, X, Grid, List } from "lucide-react";
-import {
-  products,
-  getProductsByCategory,
-  getAllCategories,
-} from "@/lib/products-data";
+import { products, getProductsByCategory } from "@/lib/products-data";
 import { categories } from "@/data/categories";
 
 export function ProductsClient() {
