@@ -6,362 +6,117 @@ export interface Product {
   rating: number;
   reviews: number;
   image: string;
+  video?: string; // Optional video URL
+  images?: string[]; // Optional array of additional images
   category: string;
   badge?: string;
 }
 
-export const bestSellerProducts: Product[] = [
-  {
-    id: 1,
-    name: "Endella Radiant Foundation (30ml)",
-    price: 24.99,
-    originalPrice: 32.99,
-    rating: 4.8,
-    reviews: 124,
-    image: "/placeholder.jpg",
-    category: "Makeup",
-    badge: "Best Seller",
-  },
-  {
-    id: 2,
-    name: "Endella Glow Serum (50ml)",
-    price: 18.99,
-    rating: 4.9,
-    reviews: 89,
-    image: "/placeholder.jpg",
-    category: "Skincare",
-    badge: "Popular",
-  },
-  {
-    id: 3,
-    name: "Endella Matte Lipstick Set (3 colors)",
-    price: 19.99,
-    originalPrice: 29.99,
-    rating: 4.7,
-    reviews: 156,
-    image: "/placeholder.jpg",
-    category: "Makeup",
-    badge: "Hot Deal",
-  },
-  {
-    id: 4,
-    name: "Endella Hydrating Face Cream (60ml)",
-    price: 22.99,
-    rating: 4.6,
-    reviews: 78,
-    image: "/placeholder.jpg",
-    category: "Skincare",
-  },
-  {
-    id: 5,
-    name: "Endella Eyeshadow Palette (12 colors)",
-    price: 34.99,
-    rating: 4.8,
-    reviews: 92,
-    image: "/placeholder.jpg",
-    category: "Makeup",
-  },
-  {
-    id: 6,
-    name: "Endella Vitamin C Serum (30ml)",
-    price: 28.99,
-    rating: 4.9,
-    reviews: 203,
-    image: "/placeholder.jpg",
-    category: "Skincare",
-    badge: "Best Seller",
-  },
-];
+// All products in a single array with proper category mapping
+export const products: Product[] = [
+  // Endella Nature Beauty products
 
-export const newArrivals: Product[] = [
+  // EDL SHIRTS / VALID SET products
+
+  // SHORTS products
+
+  // EDL SPECIAL products
+
+  // EDL ROYALTY products
+
+  // JACKET / HOODIE products
   {
-    id: 7,
-    name: "Endella Retinol Night Cream (50ml)",
-    price: 39.99,
-    rating: 4.5,
-    reviews: 45,
-    image: "/placeholder.jpg",
-    category: "Skincare",
+    id: 20,
+    name: "EDL Premium Jacket",
     badge: "New",
-  },
-  {
-    id: 8,
-    name: "Endella Mascara Volume Pro (10ml)",
-    price: 16.99,
-    rating: 4.9,
-    reviews: 67,
-    image: "/placeholder.jpg",
-    category: "Makeup",
-    badge: "New",
-  },
-  {
-    id: 9,
-    name: "Endella Hair Mask Treatment (200ml)",
-    price: 24.99,
-    originalPrice: 32.99,
-    rating: 4.7,
-    reviews: 134,
-    image: "/placeholder.jpg",
-    category: "Hair Care",
-    badge: "New",
-  },
-  {
-    id: 10,
-    name: "Endella Perfume Eau de Parfum (50ml)",
-    price: 45.99,
-    rating: 4.6,
-    reviews: 23,
-    image: "/placeholder.jpg",
-    category: "Fragrance",
-    badge: "New",
-  },
-  {
-    id: 11,
-    name: "Endella Nail Polish Set (6 colors)",
-    price: 19.99,
+    price: 54.99,
     rating: 4.8,
     reviews: 56,
-    image: "/placeholder.jpg",
-    category: "Nail Care",
-    badge: "New",
+    video: "/videos/vibe_warmth_hoodie.mp4",
+    image: "/products/hoddie.png",
+    category: "JACKET / HOODIE",
   },
-];
 
-export const featuredProducts: Product[] = [
-  {
-    id: 23,
-    name: "Endella Hyaluronic Acid Serum (30ml)",
-    price: 28.99,
-    rating: 4.9,
-    reviews: 189,
-    image: "/placeholder.jpg",
-    category: "Skincare",
-  },
+  // PHANTOM TROUSER products
   {
     id: 24,
-    name: "Endella Blush Palette (6 colors)",
-    price: 26.99,
-    rating: 4.7,
-    reviews: 112,
-    image: "/placeholder.jpg",
-    category: "Makeup",
+    name: "EDL Joggers",
+    badge: "New",
+    price: 48.99,
+    rating: 4.6,
+    reviews: 89,
+    video: "/videos/joggers2.mp4",
+    image: "/products/joggers_white1.jpg",
+    category: "PHANTOM TROUSER",
   },
   {
     id: 25,
-    name: "Endella Shea Butter Body Lotion (250ml)",
-    price: 19.99,
-    originalPrice: 25.99,
-    rating: 4.8,
-    reviews: 203,
-    image: "/placeholder.jpg",
-    category: "Bath & Body",
-  },
-  {
-    id: 26,
-    name: "Endella Rose Water Toner (200ml)",
-    price: 17.99,
-    rating: 4.6,
-    reviews: 87,
-    image: "/placeholder.jpg",
-    category: "Skincare",
-  },
-  {
-    id: 27,
-    name: "Endella Makeup Brush Set (12 pieces)",
-    price: 34.99,
-    rating: 4.7,
-    reviews: 145,
-    image: "/placeholder.jpg",
-    category: "Tools & Brushes",
-  },
-  {
-    id: 28,
-    name: "Endella Anti-Aging Eye Cream (30ml)",
-    price: 32.99,
-    originalPrice: 42.99,
-    rating: 4.8,
-    reviews: 124,
-    image: "/placeholder.jpg",
-    category: "Skincare",
-  },
-];
-
-export const backInStock: Product[] = [
-  {
-    id: 17,
-    name: "Endella Cleansing Oil (150ml)",
-    price: 21.99,
-    rating: 4.5,
-    reviews: 45,
-    image: "/placeholder.jpg",
-    category: "Skincare",
-  },
-  {
-    id: 18,
-    name: "Endella Eyeliner Pencil Set (3 colors)",
-    price: 16.99,
+    name: "EDL Orange Joggers",
+    badge: "New",
+    price: 44.99,
     rating: 4.9,
     reviews: 67,
-    image: "/placeholder.jpg",
-    category: "Makeup",
+    video: "/videos/joggers2.mp4",
+    image: "/products/joggers1.jpg",
+    category: "PHANTOM TROUSER",
   },
+
+  // KIMONO products
   {
-    id: 19,
-    name: "Endella Shampoo & Conditioner Set",
-    price: 28.99,
-    originalPrice: 34.99,
-    rating: 4.7,
-    reviews: 134,
-    image: "/placeholder.jpg",
-    category: "Hair Care",
-  },
-  {
-    id: 20,
-    name: "Endella Body Scrub (200ml)",
-    price: 18.99,
-    rating: 4.6,
-    reviews: 23,
-    image: "/placeholder.jpg",
-    category: "Bath & Body",
-  },
-  {
-    id: 21,
-    name: "Endella Face Mask Set (5 masks)",
-    price: 24.99,
+    id: 28,
+    name: "EDL Vogue Culture",
+    badge: "Best Seller",
+    price: 89.99,
     rating: 4.8,
     reviews: 56,
-    image: "/placeholder.jpg",
-    category: "Skincare",
-  },
-  {
-    id: 22,
-    name: "Endella Highlighter Stick (8g)",
-    price: 19.99,
-    rating: 4.9,
-    reviews: 203,
-    image: "/placeholder.jpg",
-    category: "Makeup",
+    video: "/videos/vibe_warmth_hoodie.mp4",
+    image: "/products/vogue_culture.jpg",
+    category: "KIMONO",
   },
 ];
 
-export const householdBeautyProducts: Product[] = [
-  {
-    id: 29,
-    name: "Endella Gentle Face Cleanser (150ml)",
-    price: 22.99,
-    rating: 4.8,
-    reviews: 156,
-    image: "/placeholder.jpg",
-    category: "Skincare",
-    badge: "Popular",
-  },
-  {
-    id: 30,
-    name: "Endella Nourishing Body Butter (200ml)",
-    price: 28.99,
-    originalPrice: 34.99,
-    rating: 4.7,
-    reviews: 89,
-    image: "/placeholder.jpg",
-    category: "Bath & Body",
-    badge: "Hot Deal",
-  },
-  {
-    id: 31,
-    name: "Endella Makeup Remover Wipes (30 count)",
-    price: 12.99,
-    rating: 4.6,
-    reviews: 234,
-    image: "/placeholder.jpg",
-    category: "Makeup",
-  },
-  {
-    id: 32,
-    name: "Endella Hand & Cuticle Cream (75ml)",
-    price: 16.99,
-    rating: 4.9,
-    reviews: 167,
-    image: "/placeholder.jpg",
-    category: "Bath & Body",
-    badge: "Best Seller",
-  },
-  {
-    id: 33,
-    name: "Endella Tea Tree Face Wash (100ml)",
-    price: 19.99,
-    rating: 4.8,
-    reviews: 78,
-    image: "/placeholder.jpg",
-    category: "Skincare",
-  },
-  {
-    id: 34,
-    name: "Endella Exfoliating Body Scrub (250ml)",
-    price: 24.99,
-    originalPrice: 29.99,
-    rating: 4.7,
-    reviews: 145,
-    image: "/placeholder.jpg",
-    category: "Bath & Body",
-    badge: "New",
-  },
-  {
-    id: 35,
-    name: "Endella Argan Hair Oil (100ml)",
-    price: 26.99,
-    originalPrice: 32.99,
-    rating: 4.9,
-    reviews: 289,
-    image: "/placeholder.jpg",
-    category: "Hair Care",
-    badge: "Best Seller",
-  },
-  {
-    id: 36,
-    name: "Endella Body Oil (150ml)",
-    price: 23.99,
-    rating: 4.8,
-    reviews: 134,
-    image: "/placeholder.jpg",
-    category: "Bath & Body",
-  },
-  {
-    id: 37,
-    name: "Endella Clay Face Mask (100ml)",
-    price: 18.99,
-    rating: 4.7,
-    reviews: 98,
-    image: "/placeholder.jpg",
-    category: "Skincare",
-    badge: "Popular",
-  },
-  {
-    id: 38,
-    name: "Endella Hair Growth Serum (50ml)",
-    price: 32.99,
-    rating: 4.9,
-    reviews: 167,
-    image: "/placeholder.jpg",
-    category: "Hair Care",
-    badge: "Hot Deal",
-  },
-  {
-    id: 39,
-    name: "Endella Gentle Soap Bar (100g)",
-    price: 8.99,
-    rating: 4.6,
-    reviews: 89,
-    image: "/placeholder.jpg",
-    category: "Bath & Body",
-  },
-  {
-    id: 40,
-    name: "Endella Lip Balm Set (3 flavors)",
-    price: 14.99,
-    rating: 4.8,
-    reviews: 234,
-    image: "/placeholder.jpg",
-    category: "Makeup",
-    badge: "New",
-  },
-];
+// Helper functions for filtering products
+export const getProductsByCategory = (category: string): Product[] => {
+  return products.filter((product) => product.category === category);
+};
+
+export const getAllCategories = (): string[] => {
+  return [...new Set(products.map((product) => product.category))];
+};
+
+export const getBestSellerProducts = (): Product[] => {
+  return products.filter((product) => product.badge === "Best Seller");
+};
+
+export const getNewArrivals = (): Product[] => {
+  return products.filter((product) => product.badge === "New");
+};
+
+export const getFeaturedProducts = (): Product[] => {
+  return products.filter((product) => product.rating >= 4.8);
+};
+
+export const getBackInStock = (): Product[] => {
+  return products.filter(
+    (product) => product.originalPrice && product.originalPrice > product.price
+  );
+};
+
+export const getHouseholdBeautyProducts = (): Product[] => {
+  return products.filter(
+    (product) =>
+      product.category === "Endella Nature Beauty" ||
+      product.category === "EDL SPECIAL"
+  );
+};
+export const getClothingProducts = (): Product[] => {
+  return products.filter(
+    (product) =>
+      product.category === "JACKET / HOODIE" ||
+      product.category === "PHANTOM TROUSER" ||
+      product.category === "KIMONO" ||
+      product.category === "EDL SHIRTS / VALID SET" ||
+      product.category === "SHORTS" ||
+      product.category === "EDL SPECIAL"
+  );
+};

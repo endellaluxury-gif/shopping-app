@@ -60,7 +60,7 @@ export function ProductCard({
 
   const handleCardClick = () => {
     // Navigate to product details page
-    router.push(`/product/${product.id}`);
+    router.push(`/products/${product.id}`);
     onProductClick?.(product);
   };
 
@@ -76,7 +76,7 @@ export function ProductCard({
 
         <div className="relative shadow-sm rounded-lg">
           <img
-            src={"/placeholder.webp"}
+            src={product.image}
             alt={product.name}
             className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300 rounded-lg"
           />

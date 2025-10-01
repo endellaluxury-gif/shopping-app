@@ -16,6 +16,7 @@ export function Navigation() {
 
   const navigationItems = [
     { name: "Home", href: "/" },
+    { name: "Products", href: "/products" },
     { name: "About Us", href: "/about-us" },
     { name: "FAQ", href: "/faq" },
     { name: "Contact Us", href: "/contact-us" },

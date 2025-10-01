@@ -78,7 +78,7 @@ export function HeroSection({
             {/* Background Image */}
             <div className="absolute inset-0 -z-10 rounded-2xl">
               <Image
-                src="/placeholder.webp"
+                src="/hero/hero1.jpg"
                 alt="Hero Background"
                 fill
                 className="object-cover rounded-2xl"
@@ -95,7 +95,7 @@ export function HeroSection({
                   startAnimation ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
                 }
                 transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
-                className="text-xs lg:text-sm font-medium text-[var(--primary)] uppercase tracking-wide mb-1"
+                className="text-xs lg:text-sm font-medium text-white uppercase tracking-wide mb-1"
               >
                 {heroContent.welcomeText}
               </motion.div>
@@ -107,7 +107,7 @@ export function HeroSection({
                   startAnimation ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }
                 }
                 transition={{ duration: 0.7, delay: 0.5, ease: "easeOut" }}
-                className="text-2xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold text-foreground leading-tight mb-4"
+                className="text-2xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold text-white leading-tight mb-4"
               >
                 {heroContent.mainHeadline}
               </motion.h1>
@@ -119,7 +119,7 @@ export function HeroSection({
                   startAnimation ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
                 }
                 transition={{ duration: 0.6, delay: 0.7, ease: "easeOut" }}
-                className="text-xs lg:text-sm text-[#808080] max-w-lg"
+                className="text-xs lg:text-sm text-white max-w-lg"
               >
                 {heroContent.description}
               </motion.p>
@@ -174,7 +174,7 @@ export function HeroSection({
                 {/* Background Image */}
                 <div className="absolute inset-0 -z-10">
                   <Image
-                    src="/placeholder2.jpeg"
+                    src="/hero/hero2.jpg"
                     alt="Summer Sale Background"
                     fill
                     className="object-cover"

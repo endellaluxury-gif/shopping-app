@@ -6,6 +6,7 @@ import { SectionContainer } from "@/components/ui/section-container";
 import { SectionHeader } from "@/components/ui/section-header";
 import { categories } from "@/data/categories";
 import Image from "next/image";
+import Link from "next/link";
 
 // Map categories data to display format
 const displayCategories = categories.map((category) => ({
@@ -17,22 +18,17 @@ const displayCategories = categories.map((category) => ({
 // Function to get appropriate images for each category
 function getCategoryImage(categoryName: string): string {
   const imageMap: Record<string, string> = {
-    "Endella Nature Beauty":
-      "https://images.unsplash.com/photo-1570194065650-d99fb4bedf0a?w=400&h=300&fit=crop&crop=center",
+    "Endella Nature Beauty": "/categories/nature_beauty.jpg",
     "EDL SHIRTS / VALID SET":
       "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&h=300&fit=crop&crop=center",
-    SHORTS:
-      "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&h=300&fit=crop&crop=center",
+    SHORTS: "/categories/shorts.avif",
     "EDL SPECIAL":
       "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=400&h=300&fit=crop&crop=center",
     "EDL ROYALTY":
       "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&h=300&fit=crop&crop=center",
-    "JACKET / HOODIE":
-      "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&h=300&fit=crop&crop=center",
-    "PHANTOM TROUSER":
-      "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&h=300&fit=crop&crop=center",
-    KIMONO:
-      "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=400&h=300&fit=crop&crop=center",
+    "JACKET / HOODIE": "/categories/hoodie.jpeg",
+    "PHANTOM TROUSER": "/categories/trousers.jpeg",
+    KIMONO: "/categories/kimono.jpeg",
   };
 
   return (
@@ -48,7 +44,7 @@ export function CategoriesSection() {
         <SectionHeader
           title="Categories"
           buttonText="View All"
-          buttonLink="/categories"
+          buttonLink="/products"
           titleSize="3xl"
           mobileTitleSize="lg"
           className="mb-8"
@@ -67,45 +63,51 @@ export function CategoriesSection() {
                 whileHover={{ scale: 1.02 }}
                 className="cursor-pointer group flex-shrink-0"
               >
-                <Card className="!py-0 overflow-hidden relative transition-all duration-300 border-2 border-transparent bg-white group w-48 md:w-56">
-                  {/* Snake border effect */}
-                  <div className="absolute inset-0 pointer-events-none">
-                    <div className="absolute top-0 left-0 w-0 h-0.5 bg-[var(--primary)] transition-all duration-500 ease-out group-hover:w-full"></div>
-                    <div className="absolute top-0 right-0 w-0.5 h-0 bg-[var(--primary)] transition-all duration-500 ease-out group-hover:h-full delay-100"></div>
-                    <div className="absolute bottom-0 right-0 w-0 h-0.5 bg-[var(--primary)] transition-all duration-500 ease-out group-hover:w-full delay-200 origin-left"></div>
-                    <div className="absolute bottom-0 left-0 w-0.5 h-0 bg-[var(--primary)] transition-all duration-500 ease-out group-hover:h-full delay-300 origin-top"></div>
-                  </div>
+                <Link
+                  href={`/products?category=${encodeURIComponent(
+                    category.name
+                  )}`}
+                >
+                  <Card className="!py-0 overflow-hidden relative transition-all duration-300 border-2 border-transparent bg-white group w-48 md:w-56">
+                    {/* Snake border effect */}
+                    <div className="absolute inset-0 pointer-events-none">
+                      <div className="absolute top-0 left-0 w-0 h-0.5 bg-[var(--primary)] transition-all duration-500 ease-out group-hover:w-full"></div>
+                      <div className="absolute top-0 right-0 w-0.5 h-0 bg-[var(--primary)] transition-all duration-500 ease-out group-hover:h-full delay-100"></div>
+                      <div className="absolute bottom-0 right-0 w-0 h-0.5 bg-[var(--primary)] transition-all duration-500 ease-out group-hover:w-full delay-200 origin-left"></div>
+                      <div className="absolute bottom-0 left-0 w-0.5 h-0 bg-[var(--primary)] transition-all duration-500 ease-out group-hover:h-full delay-300 origin-top"></div>
+                    </div>
 
-                  {/* Mobile: Small circular image */}
-                  <div className="md:hidden p-4 text-center">
-                    <div className="mb-3">
-                      <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-pink-100 to-purple-100 flex items-center justify-center text-2xl">
-                        {category.icon}
+                    {/* Mobile: Small circular image */}
+                    <div className="md:hidden p-4 text-center">
+                      <div className="mb-3">
+                        <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-pink-100 to-purple-100 flex items-center justify-center text-2xl">
+                          {category.icon}
+                        </div>
                       </div>
-                    </div>
-                    <h3 className="font-semibold text-[var(--secondary)] text-sm">
-                      {category.name}
-                    </h3>
-                  </div>
-
-                  {/* Desktop: Full-width image */}
-                  <div className="hidden md:block p-3">
-                    <div className="relative mb-4">
-                      <Image
-                        width={300}
-                        height={128}
-                        src={category.image}
-                        alt={category.name}
-                        className="w-full h-32 object-cover rounded-lg"
-                      />
-                    </div>
-                    <div className="text-center">
                       <h3 className="font-semibold text-[var(--secondary)] text-sm">
                         {category.name}
                       </h3>
                     </div>
-                  </div>
-                </Card>
+
+                    {/* Desktop: Full-width image */}
+                    <div className="hidden md:block p-3">
+                      <div className="relative mb-4">
+                        <Image
+                          width={300}
+                          height={128}
+                          src={category.image}
+                          alt={category.name}
+                          className="w-full h-32 object-cover rounded-lg"
+                        />
+                      </div>
+                      <div className="text-center">
+                        <h3 className="font-semibold text-[var(--secondary)] text-sm">
+                          {category.name}
+                        </h3>
+                      </div>
+                    </div>
+                  </Card>
+                </Link>
               </motion.div>
             ))}
           </div>

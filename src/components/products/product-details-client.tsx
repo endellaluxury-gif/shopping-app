@@ -22,89 +22,31 @@ import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import { products } from "@/lib/products-data";
 
-// Mock product data - in a real app, this would come from an API
-const getProductData = (id: string) => {
-  const products = {
-    "1": {
-      id: "1",
-      name: "EDL Premium Skincare Set",
-      price: 89.99,
-      originalPrice: 129.99,
-      rating: 4.8,
-      reviewCount: 124,
-      images: [
-        "https://images.unsplash.com/photo-1556228578-8c89e6adf883?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1570194065650-d99fb4bedf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      ],
-      description:
-        "Transform your skincare routine with our premium collection. This luxurious set includes our best-selling cleanser, hydrating serum, and nourishing moisturizer, all formulated with natural ingredients for radiant, healthy skin.",
-      features: [
-        "100% Natural Ingredients",
-        "Dermatologist Tested",
-        "Cruelty-Free",
-        "Suitable for All Skin Types",
-        "Long-lasting Hydration",
-      ],
-      inStock: true,
-      stockCount: 15,
-      category: "Skincare",
-      brand: "Endella Beauty",
-      tags: ["Premium", "Natural", "Luxury"],
-    },
-    "2": {
-      id: "2",
-      name: "EDL Luxury Makeup Palette",
-      price: 65.99,
-      originalPrice: 89.99,
-      rating: 4.9,
-      reviewCount: 89,
-      images: [
-        "https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1570194065650-d99fb4bedf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      ],
-      description:
-        "Create stunning looks with our professional makeup palette featuring 12 highly pigmented shades. Perfect for both everyday wear and special occasions.",
-      features: [
-        "12 Highly Pigmented Shades",
-        "Long-lasting Formula",
-        "Professional Quality",
-        "Travel-Friendly",
-        "Vegan & Cruelty-Free",
-      ],
-      inStock: true,
-      stockCount: 8,
-      category: "Makeup",
-      brand: "Endella Beauty",
-      tags: ["Professional", "Vegan", "Long-lasting"],
-    },
-  };
+interface ProductDetailsClientProps {
+  productId: string;
+}
 
-  return products[id as keyof typeof products] || products["1"];
-};
-
-export default function ProductDetailsPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export function ProductDetailsClient({ productId }: ProductDetailsClientProps) {
   const router = useRouter();
   const [product, setProduct] = useState<any>(null);
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("description");
+  const [mediaType, setMediaType] = useState<"image" | "video">("video");
 
   useEffect(() => {
     // Simulate API call
     const timer = setTimeout(() => {
-      setProduct(getProductData(params.id));
+      const foundProduct = products.find((p) => p.id.toString() === productId);
+      setProduct(foundProduct || null);
       setIsLoading(false);
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [params.id]);
+  }, [productId]);
 
   const handleQuantityChange = (change: number) => {
     setQuantity((prev) => Math.max(1, prev + change));
@@ -134,8 +76,8 @@ export default function ProductDetailsPage({
           <h1 className="text-2xl font-bold text-gray-900 mb-4">
             Product Not Found
           </h1>
-          <Link href="/">
-            <Button>Back to Home</Button>
+          <Link href="/products">
+            <Button>Back to Products</Button>
           </Link>
         </div>
       </div>
@@ -154,7 +96,7 @@ export default function ProductDetailsPage({
         >
           <Breadcrumb
             items={[
-              { label: "Products", href: "/" },
+              { label: "Products", href: "/products" },
               { label: product.category },
               { label: product.name },
             ]}
@@ -169,24 +111,37 @@ export default function ProductDetailsPage({
             transition={{ duration: 0.6 }}
             className="space-y-4"
           >
-            {/* Main Image */}
+            {/* Main Media Display */}
             <div className="relative aspect-square rounded-2xl overflow-hidden bg-gray-100">
               <AnimatePresence mode="wait">
                 <motion.div
-                  key={selectedImage}
+                  key={`${mediaType}-${selectedImage}`}
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.8 }}
                   transition={{ duration: 0.3 }}
                   className="relative w-full h-full"
                 >
-                  <Image
-                    src={product.images[selectedImage]}
-                    alt={product.name}
-                    fill
-                    className="object-cover"
-                    priority
-                  />
+                  {mediaType === "video" && product.video ? (
+                    <video
+                      className="w-full h-full object-cover"
+                      controls
+                      autoPlay
+                      poster={product.image}
+                      preload="metadata"
+                    >
+                      <source src={product.video} type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                  ) : (
+                    <Image
+                      src={product.images?.[selectedImage] || product.image}
+                      alt={product.name}
+                      fill
+                      className="object-contain"
+                      priority
+                    />
+                  )}
                 </motion.div>
               </AnimatePresence>
 
@@ -203,33 +158,98 @@ export default function ProductDetailsPage({
                   </Badge>
                 )}
                 <Badge variant="secondary" className="bg-green-500 text-white">
-                  {product.inStock ? "In Stock" : "Out of Stock"}
+                  In Stock
                 </Badge>
               </div>
+
+              {/* Media Type Toggle */}
+              {product.video && (
+                <div className="absolute top-4 right-4 flex gap-2">
+                  <Button
+                    variant={mediaType === "image" ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setMediaType("image")}
+                    className="text-xs"
+                  >
+                    Photos
+                  </Button>
+                  <Button
+                    variant={mediaType === "video" ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setMediaType("video")}
+                    className="text-xs"
+                  >
+                    Video
+                  </Button>
+                </div>
+              )}
             </div>
 
-            {/* Thumbnail Images */}
+            {/* Thumbnail Media */}
             <div className="flex gap-3 overflow-x-auto pb-2">
-              {product.images.map((image: string, index: number) => (
+              {/* Video Thumbnail */}
+              {product.video && (
                 <motion.button
-                  key={index}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => setSelectedImage(index)}
+                  onClick={() => {
+                    setMediaType("video");
+                    setSelectedImage(0);
+                  }}
                   className={`relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 border-2 transition-all ${
-                    selectedImage === index
+                    mediaType === "video"
                       ? "border-[var(--primary)]"
                       : "border-gray-200 hover:border-gray-300"
                   }`}
                 >
-                  <Image
-                    src={image}
-                    alt={`${product.name} view ${index + 1}`}
-                    fill
-                    className="object-cover"
-                  />
+                  <div className="relative w-full h-full bg-gray-800 flex items-center justify-center">
+                    <Image
+                      src={product.image}
+                      alt="Video thumbnail"
+                      fill
+                      className="object-cover opacity-70"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                        <svg
+                          className="w-4 h-4 text-gray-800 ml-0.5"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M8 5v14l11-7z" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
                 </motion.button>
-              ))}
+              )}
+
+              {/* Image Thumbnails */}
+              {(product.images || [product.image]).map(
+                (image: string, index: number) => (
+                  <motion.button
+                    key={index}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => {
+                      setMediaType("image");
+                      setSelectedImage(index);
+                    }}
+                    className={`relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 border-2 transition-all ${
+                      mediaType === "image" && selectedImage === index
+                        ? "border-[var(--primary)]"
+                        : "border-gray-200 hover:border-gray-300"
+                    }`}
+                  >
+                    <Image
+                      src={image}
+                      alt={`${product.name} view ${index + 1}`}
+                      fill
+                      className="object-cover"
+                    />
+                  </motion.button>
+                )
+              )}
             </div>
           </motion.div>
 
@@ -242,7 +262,7 @@ export default function ProductDetailsPage({
           >
             {/* Brand & Category */}
             <div className="flex items-center gap-4 text-sm text-gray-600">
-              <span className="font-medium">{product.brand}</span>
+              <span className="font-medium">Endella Beauty</span>
               <span>•</span>
               <span>{product.category}</span>
             </div>
@@ -267,7 +287,7 @@ export default function ProductDetailsPage({
                 ))}
               </div>
               <span className="text-sm text-gray-600">
-                {product.rating} ({product.reviewCount} reviews)
+                {product.rating} ({product.reviews} reviews)
               </span>
             </div>
 
@@ -285,14 +305,23 @@ export default function ProductDetailsPage({
 
             {/* Description */}
             <p className="text-gray-700 leading-relaxed">
-              {product.description}
+              Discover the perfect blend of quality and style with our premium{" "}
+              {product.name.toLowerCase()}. Crafted with attention to detail and
+              designed for modern lifestyles, this product offers exceptional
+              value and performance.
             </p>
 
             {/* Features */}
             <div className="space-y-3">
               <h3 className="font-semibold text-gray-900">Key Features:</h3>
               <ul className="space-y-2">
-                {product.features.map((feature: string, index: number) => (
+                {[
+                  "Premium Quality Materials",
+                  "Durable Construction",
+                  "Modern Design",
+                  "Easy to Use",
+                  "Long-lasting Performance",
+                ].map((feature: string, index: number) => (
                   <motion.li
                     key={index}
                     initial={{ opacity: 0, x: -20 }}
@@ -338,7 +367,6 @@ export default function ProductDetailsPage({
               <div className="flex gap-3">
                 <Button
                   onClick={handleAddToCart}
-                  disabled={!product.inStock}
                   className="flex-1 h-12 bg-[var(--primary)] hover:bg-[var(--primary)]/90"
                 >
                   <ShoppingCart className="h-4 w-4 mr-2" />
@@ -353,20 +381,13 @@ export default function ProductDetailsPage({
               </div>
             </div>
 
-            {/* Stock Info */}
-            {product.inStock && (
-              <p className="text-sm text-green-600">
-                Only {product.stockCount} left in stock
-              </p>
-            )}
-
             {/* Tags */}
             <div className="flex flex-wrap gap-2">
-              {product.tags.map((tag: string, index: number) => (
-                <Badge key={index} variant="secondary">
-                  {tag}
-                </Badge>
-              ))}
+              {product.badge && (
+                <Badge variant="secondary">{product.badge}</Badge>
+              )}
+              <Badge variant="secondary">Premium</Badge>
+              <Badge variant="secondary">Quality</Badge>
             </div>
           </motion.div>
         </div>
@@ -408,14 +429,24 @@ export default function ProductDetailsPage({
                 {activeTab === "description" && (
                   <div className="prose max-w-none">
                     <p className="text-gray-700 leading-relaxed">
-                      {product.description}
+                      Discover the perfect blend of quality and style with our
+                      premium {product.name.toLowerCase()}. Crafted with
+                      attention to detail and designed for modern lifestyles,
+                      this product offers exceptional value and performance.
                     </p>
                   </div>
                 )}
 
                 {activeTab === "features" && (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {product.features.map((feature: string, index: number) => (
+                    {[
+                      "Premium Quality Materials",
+                      "Durable Construction",
+                      "Modern Design",
+                      "Easy to Use",
+                      "Long-lasting Performance",
+                      "Excellent Value",
+                    ].map((feature: string, index: number) => (
                       <div key={index} className="flex items-start gap-3">
                         <div className="w-2 h-2 bg-[var(--primary)] rounded-full mt-2 flex-shrink-0" />
                         <span className="text-gray-700">{feature}</span>
@@ -443,7 +474,7 @@ export default function ProductDetailsPage({
                         ))}
                       </div>
                       <p className="text-gray-600">
-                        Based on {product.reviewCount} reviews
+                        Based on {product.reviews} reviews
                       </p>
                     </div>
                   </div>

@@ -9,11 +9,11 @@ import { StatsSection } from "@/components/stats-section";
 import { TestimonialsSection } from "@/components/testimonials-section";
 import { NewsletterSection } from "@/components/newsletter-section";
 import {
-  bestSellerProducts,
-  newArrivals,
-  featuredProducts,
-  backInStock,
-  // householdBeautyProducts,
+  getBestSellerProducts,
+  getNewArrivals,
+  getClothingProducts,
+  getBackInStock,
+  getHouseholdBeautyProducts,
 } from "@/lib/products-data";
 
 export default function HomePage() {
@@ -34,24 +34,19 @@ export default function HomePage() {
       <CategoriesSection />
       <ProductGrid
         title="Best Seller Products"
-        products={bestSellerProducts}
-        viewAllLink="/products/best-sellers"
+        products={getBestSellerProducts()}
+        viewAllLink="/products"
       />
       <ProductGrid
         title="New Arrivals"
-        products={newArrivals}
-        viewAllLink="/products/new-arrivals"
+        products={getNewArrivals()}
+        viewAllLink="/products"
       />
       <PromotionalBanners />
       <ProductGrid
-        title="Back in Stock"
-        products={backInStock}
-        viewAllLink="/products/back-in-stock"
-      />
-      <ProductGrid
-        title="Featured Products"
-        products={featuredProducts}
-        viewAllLink="/products/featured"
+        title="Clothing Essentials"
+        products={getClothingProducts()}
+        viewAllLink="/products"
       />
       <StatsSection />
 

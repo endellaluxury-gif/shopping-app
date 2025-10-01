@@ -1,43 +1,44 @@
-"use client"
+"use client";
 
-import { ReactNode } from "react"
-import { DynamicButton } from "@/components/ui/dynamic-button"
-import { ArrowRight } from "lucide-react"
-import Link from "next/link"
+import { ReactNode } from "react";
+import { DynamicButton } from "@/components/ui/dynamic-button";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 interface SectionHeaderProps {
-  title: string
-  buttonText?: string
-  buttonLink?: string
-  titleSize?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl'
-  mobileTitleSize?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl'
-  className?: string
-  onButtonClick?: () => void
+  title: string;
+  subtitle?: string;
+  buttonText?: string;
+  buttonLink?: string;
+  titleSize?: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl";
+  mobileTitleSize?: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl";
+  className?: string;
+  onButtonClick?: () => void;
 }
 
-export function SectionHeader({ 
-  title, 
-  buttonText = "View All", 
-  buttonLink, 
-  titleSize = '4xl',
+export function SectionHeader({
+  title,
+  subtitle,
+  buttonText = "View All",
+  buttonLink,
+  titleSize = "4xl",
   mobileTitleSize,
   className = "",
-  onButtonClick 
+  onButtonClick,
 }: SectionHeaderProps) {
-  
   const titleSizeClasses = {
-    'sm': 'text-sm',
-    'md': 'text-base',
-    'lg': 'text-lg',
-    'xl': 'text-xl',
-    '2xl': 'text-2xl',
-    '3xl': 'text-3xl',
-    '4xl': 'text-4xl',
-    '5xl': 'text-5xl',
-  }
+    sm: "text-sm",
+    md: "text-base",
+    lg: "text-lg",
+    xl: "text-xl",
+    "2xl": "text-2xl",
+    "3xl": "text-3xl",
+    "4xl": "text-4xl",
+    "5xl": "text-5xl",
+  };
 
   // Use mobile size if provided, otherwise fall back to desktop size
-  const mobileSize = mobileTitleSize || titleSize
+  const mobileSize = mobileTitleSize || titleSize;
 
   const button = (
     <DynamicButton
@@ -53,21 +54,20 @@ export function SectionHeader({
     >
       {buttonText}
     </DynamicButton>
-  )
+  );
 
   return (
     <div className={`flex justify-between gap-4 ${className} w-full`}>
-      <h2 className={`font-semibold text-[#1A1A1A] ${titleSizeClasses[mobileSize]} lg:text-${titleSize}`}>
-        {title}
-      </h2>
-      
-      {buttonLink ? (
-        <Link href={buttonLink}>
-          {button}
-        </Link>
-      ) : (
-        button
-      )}
+      <div className="flex-1">
+        <h2
+          className={`font-semibold text-[#1A1A1A] ${titleSizeClasses[mobileSize]} lg:text-${titleSize}`}
+        >
+          {title}
+        </h2>
+        {subtitle && <p className="text-gray-600 text-sm mt-2">{subtitle}</p>}
+      </div>
+
+      {buttonLink ? <Link href={buttonLink}>{button}</Link> : null}
     </div>
-  )
+  );
 }
