@@ -1,7 +1,9 @@
 import { Metadata } from "next";
+import { Suspense } from "react";
 import { ProductsClient } from "@/components/products/products-client";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://endellabeauty.com"),
   title: "Products - Endella Beauty | Premium Beauty & Skincare",
   description:
     "Discover our complete collection of premium beauty products, skincare essentials, and luxury cosmetics. Shop by category with advanced filtering options.",
@@ -56,5 +58,15 @@ export const metadata: Metadata = {
 };
 
 export default function ProductsPage() {
-  return <ProductsClient />;
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="w-8 h-8 border-2 border-[var(--primary)] border-t-transparent rounded-full animate-spin" />
+        </div>
+      }
+    >
+      <ProductsClient />
+    </Suspense>
+  );
 }

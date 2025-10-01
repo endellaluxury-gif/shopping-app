@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { Suspense } from "react";
 import { ProductDetailsClient } from "@/components/products/product-details-client";
 import { products } from "@/lib/products-data";
 
@@ -17,6 +18,7 @@ export async function generateMetadata({
   }
 
   return {
+    metadataBase: new URL("https://endellabeauty.com"),
     title: `${product.name} - Endella Beauty`,
     description: `Discover ${product.name} - ${product.category} from Endella Beauty. Premium quality, exceptional value. Shop now with free shipping on orders over £50.`,
     keywords: [
@@ -72,5 +74,15 @@ export default function ProductDetailsPage({
 }: {
   params: { id: string };
 }) {
-  return <ProductDetailsClient productId={params.id} />;
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="w-8 h-8 border-2 border-[var(--primary)] border-t-transparent rounded-full animate-spin" />
+        </div>
+      }
+    >
+      <ProductDetailsClient productId={params.id} />
+    </Suspense>
+  );
 }
