@@ -21,18 +21,27 @@ import { Breadcrumb } from "@/components/ui/breadcrumb";
 import Image from "next/image";
 import Link from "next/link";
 import { products, Product } from "@/lib/products-data";
+import { useCart } from "@/contexts/CartContext";
+import { toast } from "sonner";
+import { Minus as MinusIcon, Plus as PlusIcon } from "lucide-react";
 
 interface ProductDetailsClientProps {
   productId: string;
 }
 
 export function ProductDetailsClient({ productId }: ProductDetailsClientProps) {
+  const { addToCart, removeFromCart, updateQuantity, state } = useCart();
   const [product, setProduct] = useState<Product | null>(null);
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("description");
   const [mediaType, setMediaType] = useState<"image" | "video">("video");
+
+  // Check if product is in cart
+  const cartItem = state.items.find((item) => item.product.id === product?.id);
+  const isInCart = !!cartItem;
+  const cartQuantity = cartItem?.quantity || 0;
 
   useEffect(() => {
     // Simulate API call
@@ -49,9 +58,36 @@ export function ProductDetailsClient({ productId }: ProductDetailsClientProps) {
     setQuantity((prev) => Math.max(1, prev + change));
   };
 
+  const handleCartQuantityChange = (change: number) => {
+    if (!product) return;
+
+    const newQuantity = cartQuantity + change;
+    if (newQuantity <= 0) {
+      removeFromCart(product.id);
+      toast.success(`${product.name} removed from cart!`);
+    } else {
+      updateQuantity(product.id, newQuantity);
+      toast.success(`${product.name} quantity updated to ${newQuantity}!`);
+    }
+  };
+
   const handleAddToCart = () => {
-    // Add to cart logic here
-    console.log(`Added ${quantity} ${product?.name} to cart`);
+    if (product) {
+      // Add the product to cart with the selected quantity
+      for (let i = 0; i < quantity; i++) {
+        addToCart(product);
+      }
+      toast.success(`${quantity} ${product.name} added to cart!`, {
+        description: `₦${(
+          product.price * quantity
+        ).toLocaleString()} total • View cart to checkout`,
+        action: {
+          label: "View Cart",
+          onClick: () => (window.location.href = "/cart"),
+        },
+      });
+      console.log(`Added ${quantity} ${product.name} to cart`);
+    }
   };
 
   if (isLoading) {
@@ -364,13 +400,37 @@ export function ProductDetailsClient({ productId }: ProductDetailsClientProps) {
               </div>
 
               <div className="flex gap-3">
-                <Button
-                  onClick={handleAddToCart}
-                  className="flex-1 h-12 bg-[var(--primary)] hover:bg-[var(--primary)]/90"
-                >
-                  <ShoppingCart className="h-4 w-4 mr-2" />
-                  Add to Cart
-                </Button>
+                {!isInCart ? (
+                  <Button
+                    onClick={handleAddToCart}
+                    className="flex-1 h-12 bg-[var(--primary)] hover:bg-[var(--primary)]/90"
+                  >
+                    <ShoppingCart className="h-4 w-4 mr-2" />
+                    Add to Cart
+                  </Button>
+                ) : (
+                  <div className="flex-1 flex items-center border border-[var(--primary)] rounded-md bg-[#DEF9EC]">
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="h-10 w-10 p-0 hover:bg-[var(--primary)]/10"
+                      onClick={() => handleCartQuantityChange(-1)}
+                    >
+                      <MinusIcon className="h-4 w-4" />
+                    </Button>
+                    <span className="px-3 text-sm font-medium text-[var(--primary)] min-w-[3rem] text-center">
+                      {cartQuantity}
+                    </span>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="h-10 w-10 p-0 hover:bg-[var(--primary)]/10"
+                      onClick={() => handleCartQuantityChange(1)}
+                    >
+                      <PlusIcon className="h-4 w-4" />
+                    </Button>
+                  </div>
+                )}
                 <Button variant="outline" size="icon" className="h-12 w-12">
                   <Heart className="h-4 w-4" />
                 </Button>

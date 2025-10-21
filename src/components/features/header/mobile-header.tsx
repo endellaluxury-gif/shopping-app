@@ -1,14 +1,13 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { Search, Menu, X, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import { useDebounce } from "@/hooks/use-debounce";
 import { SectionContainer } from "@/components/ui/section-container";
-import { LanguageDropdown } from "@/components/features/header/language-dropdown";
 import { MobileSearchDialog } from "@/components/search/mobile-search-dialog";
 import { MobileMenu } from "@/components/mobile-menu";
 import { addRecentSearch } from "@/lib/search-storage";
@@ -22,14 +21,6 @@ export function MobileHeader() {
   const [currentLanguage, setCurrentLanguage] = useState("en");
 
   const debouncedSearch = useDebounce(searchQuery, 500);
-
-  const languages = [
-    { code: "en", name: "English", flag: "🇺🇸" },
-    { code: "es", name: "Español", flag: "🇪🇸" },
-    { code: "fr", name: "Français", flag: "🇫🇷" },
-    { code: "de", name: "Deutsch", flag: "🇩🇪" },
-    { code: "it", name: "Italiano", flag: "🇮🇹" },
-  ];
 
   const handleSearch = useCallback((query: string) => {
     setSearchQuery(query);
@@ -62,16 +53,7 @@ export function MobileHeader() {
             <span className="text-[#666666]">Lincoln- 344, Chicago, USA</span>
           </div>
 
-          {/* Language and Sign In */}
           <div className="flex items-center space-x-3">
-            <LanguageDropdown
-              languages={languages}
-              currentLanguage={currentLanguage}
-              onLanguageChange={setCurrentLanguage}
-              triggerClassName="h-auto px-2 py-1 text-secondary hover:text-primary border-0 focus:outline-none focus:ring-0 cursor-pointer text-xs"
-            />
-
-            {/* Vertical Separator */}
             <div className="w-px h-4 bg-gray-300"></div>
 
             <Link
@@ -135,7 +117,11 @@ export function MobileHeader() {
 
               {/* Shopping Cart */}
               <div className="relative">
-                <Button variant="ghost" size="icon" className="p-1">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="p-1 cursor-pointer"
+                >
                   <Image
                     src="/icon/cart.svg"
                     alt="Shopping Cart"

@@ -12,8 +12,6 @@ import {
   getBestSellerProducts,
   getNewArrivals,
   getClothingProducts,
-  getBackInStock,
-  getHouseholdBeautyProducts,
 } from "@/lib/products-data";
 
 export default function HomePage() {

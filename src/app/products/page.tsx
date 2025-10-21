@@ -8,6 +8,14 @@ export const metadata: Metadata = {
   description:
     "Discover our complete collection of premium beauty products, skincare essentials, and luxury cosmetics. Shop by category with advanced filtering options.",
   keywords: [
+    "Vogue Culture",
+    "EDL SHIRTS / VALID SET",
+    "SHORTS",
+    "EDL SPECIAL",
+    "EDL ROYALTY",
+    "JACKET / HOODIE",
+    "PHANTOM TROUSER",
+    "KIMONO",
     "beauty products",
     "skincare",
     "cosmetics",

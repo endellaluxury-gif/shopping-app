@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import { LoadingProvider } from "@/components/providers/loading-provider";
+import { CartProvider } from "@/contexts/CartContext";
 import HeaderWrapper from "@/components/features/header/HeaderWrapper";
 import FooterWrapper from "@/components/features/FooterWrapper/FooterWrapper";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Poppins({
   subsets: ["latin"],
@@ -25,14 +27,17 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <LoadingProvider>
-          <div className="min-h-screen bg-background">
-            {/* Sticky Header */}
-            <HeaderWrapper />
+          <CartProvider>
+            <div className="min-h-screen bg-background">
+              {/* Sticky Header */}
+              <HeaderWrapper />
 
-            {/* Main Content */}
-            <main className="flex-1">{children}</main>
-            <FooterWrapper />
-          </div>
+              {/* Main Content */}
+              <main className="flex-1">{children}</main>
+              <FooterWrapper />
+            </div>
+            <Toaster />
+          </CartProvider>
         </LoadingProvider>
       </body>
     </html>

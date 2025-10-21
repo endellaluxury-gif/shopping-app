@@ -11,13 +11,15 @@ import { SectionContainer } from "@/components/ui/section-container";
 import { SearchDropdown } from "@/components/search/search-dropdown";
 import { MobileSearchDialog } from "@/components/search/mobile-search-dialog";
 import { addRecentSearch } from "@/lib/search-storage";
+import { useCart } from "@/contexts/CartContext";
+import Link from "next/link";
 
 export function MainHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearchDropdownOpen, setIsSearchDropdownOpen] = useState(false);
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
-  const [cartCount] = useState(2);
+  const { state: cartState } = useCart();
   const searchContainerRef = useRef<HTMLDivElement>(null);
 
   const handleSearch = useCallback((query: string) => {
@@ -63,15 +65,18 @@ export function MainHeader() {
             transition={{ delay: 0.3 }}
             className="flex items-center"
           >
-            <div className="relative w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24">
+            <Link
+              href="/"
+              className="relative w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24"
+            >
               <Image
                 src="/endella.jpg"
-                alt="Pride of Afrika"
+                alt="Endella"
                 fill
                 className="object-contain"
                 priority
               />
-            </div>
+            </Link>
           </motion.div>
 
           {/* Search Bar - Desktop */}
@@ -135,24 +140,30 @@ export function MainHeader() {
             {/* Shopping Cart */}
             <div className="flex items-center space-x-2">
               <div className="relative">
-                <Button variant="ghost" size="icon" className="p-0">
-                  <Image
-                    src="/icon/cart.svg"
-                    alt="Shopping Cart"
-                    width={32}
-                    height={32}
-                    className="h-8 w-8"
-                  />
-                  {cartCount > 0 && (
-                    <span className="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                      {cartCount}
-                    </span>
-                  )}
-                </Button>
+                <Link href="/cart">
+                  <Button variant="ghost" size="icon" className="p-0">
+                    <Image
+                      src="/icon/cart.svg"
+                      alt="Shopping Cart"
+                      width={32}
+                      height={32}
+                      className="h-8 w-8"
+                    />
+                    {cartState.totalItems > 0 && (
+                      <span className="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                        {cartState.totalItems}
+                      </span>
+                    )}
+                  </Button>
+                </Link>
               </div>
-              <div className="hidden md:block text-xs text-muted-foreground">
-                <div className="text-[#666666] mb-1">Shopping cart:</div>
-                <div className="font-semibold text-foreground">$57.00</div>
+              <div className="hidden md:block text-xs text-muted-foreground cursor-pointer">
+                <Link href="/cart">
+                  <div className="text-[#666666] mb-1">Shopping cart:</div>
+                  <div className="font-semibold text-foreground">
+                    ₦{cartState.totalPrice.toLocaleString()}
+                  </div>
+                </Link>
               </div>
             </div>
             <Button

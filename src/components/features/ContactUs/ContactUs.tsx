@@ -3,6 +3,8 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { useState } from "react";
+import { toast } from "sonner";
 
 import { SectionContainer } from "@/components/ui/section-container";
 import Image from "next/image";
@@ -31,18 +33,71 @@ const schema = yup.object({
 
 type FormData = yup.InferType<typeof schema>;
 const ContactUs = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const {
     register,
     handleSubmit,
-    // formState: { errors, isSubmitting },
+    formState: { errors },
     reset,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
+
   const onSubmit = async (data: FormData) => {
-    console.log("Submitted:", data);
-    // send to API here...
-    reset();
+    try {
+      setIsSubmitting(true);
+      console.log("Submitting contact form:", data);
+
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        toast.success("Message sent successfully!", {
+          description: "We'll get back to you within 24 hours.",
+          duration: 5000,
+          style: {
+            background: "#f0fdf4",
+            color: "#166534",
+            border: "1px solid #22c55e",
+            fontWeight: "500",
+          },
+        });
+        reset();
+      } else {
+        toast.error("Failed to send message", {
+          description: result.error || "Please try again later.",
+          duration: 5000,
+          style: {
+            background: "#fef2f2",
+            color: "#dc2626",
+            border: "1px solid #ef4444",
+            fontWeight: "500",
+          },
+        });
+      }
+    } catch (error) {
+      console.error("Error submitting contact form:", error);
+      toast.error("Network error", {
+        description: "Please check your connection and try again.",
+        duration: 5000,
+        style: {
+          background: "#fef2f2",
+          color: "#dc2626",
+          border: "1px solid #ef4444",
+          fontWeight: "500",
+        },
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -77,25 +132,44 @@ const ContactUs = () => {
               <div className="w-full flex flex-col gap-2">
                 <Label htmlFor="first_name">First Name</Label>
                 <Input id="first_name" {...register("first_name")} />
+                {errors.first_name && (
+                  <p className="text-red-500 text-sm">
+                    {errors.first_name.message}
+                  </p>
+                )}
               </div>
               <div className="w-full flex flex-col gap-2">
                 <Label htmlFor="last_name">Last Name</Label>
                 <Input id="last_name" {...register("last_name")} />
+                {errors.last_name && (
+                  <p className="text-red-500 text-sm">
+                    {errors.last_name.message}
+                  </p>
+                )}
               </div>
             </div>
             <div className="flex gap-5">
               <div className="w-full flex flex-col gap-2">
                 <Label htmlFor="email">Email</Label>
                 <Input id="email" {...register("email")} />
+                {errors.email && (
+                  <p className="text-red-500 text-sm">{errors.email.message}</p>
+                )}
               </div>
               <div className="w-full flex flex-col gap-2">
                 <Label htmlFor="phone">Phone</Label>
                 <Input id="phone" {...register("phone")} />
+                {errors.phone && (
+                  <p className="text-red-500 text-sm">{errors.phone.message}</p>
+                )}
               </div>
             </div>
             <div className="w-full flex flex-col gap-2">
               <Label htmlFor="subject">Subject</Label>
               <Input id="subject" {...register("subject")} />
+              {errors.subject && (
+                <p className="text-red-500 text-sm">{errors.subject.message}</p>
+              )}
             </div>
             <div className="w-full flex flex-col gap-2">
               <Label htmlFor="message">Message</Label>
@@ -105,9 +179,16 @@ const ContactUs = () => {
                 placeholder="Type your message here"
                 {...register("message")}
               />
+              {errors.message && (
+                <p className="text-red-500 text-sm">{errors.message.message}</p>
+              )}
             </div>
-            <Button className="bg-[#0E7346] w-full text-white lg:max-w-[120px] cursor-pointer h-[48px]">
-              Submit
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="bg-[#0E7346] w-full text-white lg:max-w-[120px] cursor-pointer h-[48px] disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isSubmitting ? "Sending..." : "Submit"}
             </Button>
           </form>
         </div>
@@ -119,7 +200,8 @@ const ContactUs = () => {
           </div>
           <p className="text-[16px] font-semibold">Location</p>
           <p className="text-[13px] font-medium">
-            Benin City- 344, Sapele Road, Edo State, Nigeria
+            Golden Garden estate olayundun Ayanleke close off ponle street
+            egbeda Lagos, Nigeria
           </p>
         </div>
         <div className="bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col items-center justify-center gap-5 p-[25px] min-w-[250px] h-full">
@@ -127,7 +209,7 @@ const ContactUs = () => {
             <Mail className="text-white" />
           </div>
           <p className="text-[16px] font-semibold">Email Us</p>
-          <p className="text-[13px] font-medium">endella.luxury@gmail.com</p>
+          <p className="text-[13px] font-medium">endysworld@yahoo.com</p>
         </div>
         <div className="bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col items-center justify-center gap-5 p-[25px] min-w-[250px] h-full">
           <div className="bg-[#00B206] rounded-full p-3 flex items-center justify-center">

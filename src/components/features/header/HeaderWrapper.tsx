@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { TopBar } from "@/components/features/header/top-bar";
+// import { TopBar } from "@/components/features/header/top-bar";
 import { MainHeader } from "@/components/features/header/main-header";
 import { Navigation } from "@/components/features/header/navigation";
 import { MobileHeader } from "@/components/features/header/mobile-header";
@@ -24,7 +24,7 @@ const HeaderWrapper = () => {
     <div className="bg-white sticky top-0 z-50 bg-background">
       <MobileHeader />
       <div className="hidden lg:block">
-        <TopBar />
+        {/*  <TopBar /> */}
         <MainHeader />
         <Navigation />
       </div>

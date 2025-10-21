@@ -3,7 +3,6 @@
 import { useState, useRef, useEffect } from "react";
 import {
   MapPin,
-  Globe,
   User,
   ChevronDown,
   LogOut,
@@ -12,15 +11,12 @@ import {
   Eye,
   Coins,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { SectionContainer } from "@/components/ui/section-container";
-import { LanguageDropdown } from "@/components/features/header/language-dropdown";
 import Link from "next/link";
 import { createPortal } from "react-dom";
 
 export function TopBar() {
-  const [currentLanguage, setCurrentLanguage] = useState("en");
   const [isAccountDropdownOpen, setIsAccountDropdownOpen] = useState(false);
   const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [dropdownPosition, setDropdownPosition] = useState({
@@ -29,17 +25,8 @@ export function TopBar() {
   });
   const triggerRef = useRef<HTMLDivElement>(null);
 
-  // Mock authentication state - replace with actual auth logic
   const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [userName, setUserName] = useState("John Doe");
-
-  const languages = [
-    { code: "en", name: "English", flag: "🇺🇸" },
-    { code: "es", name: "Español", flag: "🇪🇸" },
-    { code: "fr", name: "Français", flag: "🇫🇷" },
-    { code: "de", name: "Deutsch", flag: "🇩🇪" },
-    { code: "it", name: "Italiano", flag: "🇮🇹" },
-  ];
 
   const accountMenuItems = [
     { label: "Profile", href: "/profile", icon: User },
@@ -95,14 +82,6 @@ export function TopBar() {
 
           {/* Language and Account */}
           <div className="flex items-center space-x-4">
-            {/* Language Selector */}
-            <LanguageDropdown
-              languages={languages}
-              currentLanguage={currentLanguage}
-              onLanguageChange={setCurrentLanguage}
-              triggerClassName="h-auto px-3 py-1.5 text-secondary hover:text-primary border-0 focus:outline-none focus:ring-0 cursor-pointer"
-            />
-
             {/* Vertical Separator */}
             <div className="w-px h-5 bg-gray-300"></div>
 
@@ -138,16 +117,6 @@ export function TopBar() {
                       onMouseEnter={handleMouseEnter}
                       onMouseLeave={handleMouseLeave}
                     >
-                      {/* Points Section */}
-                      <div className="px-4 py-2 bg-[var(--primary)] text-white rounded-t-md">
-                        <div className="flex items-center space-x-2">
-                          <Coins className="h-4 w-4" />
-                          <span className="text-sm font-medium">
-                            1,250 Points
-                          </span>
-                        </div>
-                      </div>
-
                       {accountMenuItems.map((item, index) => (
                         <Link
                           key={index}

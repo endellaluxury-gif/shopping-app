@@ -18,11 +18,11 @@ const linkMap: Record<string, string> = {
   FAQ: "/faq",
   "Delivery & Returns": "/delivery-returns",
   "Contact Us": "/contact-us",
-  "Beauty Shop": "/shop",
+  "Beauty Shop": "/products",
   "About Us": "/about-us",
-  "Beauty Blog": "/blog",
+  "Fashion Blog": "/blog",
+  "Style Guide": "/style-guide",
   "Beauty Tips": "/beauty-tips",
-  "Skincare Guide": "/skincare-guide",
   "Privacy Policy": "/privacy-policy",
   "Shipping Policy": "/shipping-policy",
   "Terms & Condition": "/terms",
@@ -30,12 +30,12 @@ const linkMap: Record<string, string> = {
 };
 const footerLinks = {
   "Help & Support": ["FAQ", "Delivery & Returns", "Contact Us"],
-  "Beauty & Wellness": [
+  "Fashion & Beauty": [
     "Beauty Shop",
     "About Us",
-    "Beauty Blog",
+    "Fashion Blog",
+    "Style Guide",
     "Beauty Tips",
-    "Skincare Guide",
   ],
   Legal: [
     "Privacy Policy",
@@ -85,17 +85,18 @@ export function Footer() {
               </div>
 
               <p className="text-white/80 max-w-md text-sm">
-                Endella Beauty is the UK&apos;s premier destination for luxury
-                beauty and skincare products. We are specialists in premium
-                cosmetics, skincare essentials, and beauty products of the
-                highest quality.
+                Endella Luxury is Nigeria&apos;s premier destination for exotic
+                fashion and beauty products. We specialize in premium clothing,
+                hoodies, jackets, vogue culture pieces, and high-quality makeup
+                and beauty essentials for the modern lifestyle.
               </p>
 
               <div className="space-y-2">
                 <div className="flex items-center space-x-3">
                   <MapPin className="h-4 w-4 text-[var(--primary)]" />
                   <span className="text-sm text-white">
-                    344, Sapele Road, Benin City. Edo State, Nigeria
+                    Golden Garden estate olayundun Ayanleke close off ponle
+                    street egbeda Lagos, Nigeria
                   </span>
                 </div>
                 <div className="flex items-center space-x-3">
@@ -105,7 +106,7 @@ export function Footer() {
                 <div className="flex items-center space-x-3">
                   <Mail className="h-4 w-4 text-[var(--primary)]" />
                   <span className="text-sm text-white">
-                    endella.luxury@gmail.com
+                    endysworld@yahoo.com
                   </span>
                 </div>
               </div>

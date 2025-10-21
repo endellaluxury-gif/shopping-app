@@ -17,7 +17,7 @@ const AboutUs = () => {
           transition={{ duration: 0.7 }}
           className="text-white font-semibold text-[28px] lg:text-[36px]"
         >
-          Beauty Redefined. Confidence Delivered.
+          Fashion Redefined. Style Delivered.
         </motion.h1>
         <motion.p
           initial={{ opacity: 0, y: 40 }}
@@ -25,8 +25,8 @@ const AboutUs = () => {
           transition={{ duration: 0.7, delay: 0.2 }}
           className="text-white font-normal text-[14px]"
         >
-          Premium beauty and skincare products, carefully curated for your
-          unique beauty journey{" "}
+          Exotic fashion pieces, premium clothing, and vogue culture items
+          carefully curated for your unique style journey{" "}
         </motion.p>
         <motion.p
           initial={{ opacity: 0, y: 40 }}
@@ -57,12 +57,13 @@ const AboutUs = () => {
             Our company
           </h2>
           <p className="text-[16px] lg:text-[20px] font-normal">
-            Endella is the beauty brand that celebrates the essence of natural
-            beauty and self-expression. Inspired by the diversity of beauty and
-            a passion for quality ingredients, we create premium skincare and
-            makeup products that enhance your natural radiance. Endella believes
-            that beauty comes in all forms and our mission is to help you
-            discover and celebrate your unique beauty.
+            Endella Luxury is Nigeria&apos;s premier fashion destination that
+            celebrates the essence of exotic style and self-expression. Inspired
+            by the diversity of fashion and a passion for quality craftsmanship,
+            we create premium clothing, hoodies, jackets, and vogue culture
+            pieces that enhance your unique style. Endella believes that fashion
+            is a form of art and our mission is to help you discover and
+            celebrate your distinctive style.
           </p>
         </motion.div>
         <motion.div
@@ -114,16 +115,18 @@ const AboutUs = () => {
               Quality at its finest
             </h2>
             <p className="text-[16px] lg:text-[20px] font-normal">
-              At Endella, we are committed to sourcing the finest ingredients
-              and creating products that meet the highest standards of quality
-              and safety. Every product is carefully formulated and tested to
-              ensure it delivers exceptional results.
+              At Endella Luxury, we are committed to sourcing the finest
+              materials and creating fashion pieces that meet the highest
+              standards of quality and craftsmanship. Every garment is carefully
+              designed and crafted to ensure it delivers exceptional style and
+              comfort.
             </p>
             <p className="text-[16px] lg:text-[20px] font-normal mt-2">
-              We believe that beauty should be accessible to everyone, which is
-              why we create products that work for all skin types and tones. Our
-              commitment to inclusivity and quality ensures that every customer
-              can find products that make them feel confident and beautiful.
+              We believe that fashion should be accessible to everyone, which is
+              why we create pieces that work for all body types and style
+              preferences. Our commitment to inclusivity and quality ensures
+              that every customer can find fashion pieces that make them feel
+              confident and stylish.
             </p>
           </motion.div>
         </div>
@@ -163,27 +166,27 @@ const AboutUs = () => {
               {[
                 {
                   title: "Fast Delivery",
-                  desc: "Get your beauty products quickly with reliable, nationwide delivery",
+                  desc: "Get your fashion pieces quickly with reliable, nationwide delivery across Nigeria",
                   icon: <TruckIcon />,
                 },
                 {
-                  title: "Expert Support",
-                  desc: "Our beauty experts are here to help with any product questions or concerns.",
+                  title: "Style Support",
+                  desc: "Our fashion experts are here to help with any styling questions or size concerns.",
                   icon: <Headset />,
                 },
                 {
                   title: "Quality Guaranteed",
-                  desc: "We source only the finest ingredients and test every product for safety and effectiveness.",
+                  desc: "We source only the finest materials and test every piece for durability and comfort.",
                   icon: <ShieldCheck />,
                 },
                 {
                   title: "Safe Payment",
-                  desc: "Secure and encrypted checkout with trusted payment methods.",
+                  desc: "Secure and encrypted checkout with trusted payment methods including Paystack.",
                   icon: <ShieldCheck />,
                 },
                 {
-                  title: "Beauty Rewards",
-                  desc: "Exclusive savings and offers for our beauty community members.",
+                  title: "Fashion Rewards",
+                  desc: "Exclusive savings and offers for our fashion community members.",
                   icon: <ShieldCheck />,
                 },
               ].map((feature, i) => (
