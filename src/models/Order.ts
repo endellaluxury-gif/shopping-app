@@ -103,7 +103,8 @@ const OrderSchema = new Schema<IOrder>(
 OrderSchema.pre("save", async function (next) {
   if (this.isNew && !this.orderNumber) {
     try {
-      const count = await this.constructor.countDocuments();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const count = await (this.constructor as any).countDocuments();
       this.orderNumber = `EDL-${Date.now()}-${count + 1}`;
     } catch (error) {
       console.error("Error generating order number:", error);

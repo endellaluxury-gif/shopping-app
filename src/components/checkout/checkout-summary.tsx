@@ -59,7 +59,7 @@ export function CheckoutSummary() {
                   {item.product.category}
                 </p>
                 <div className="flex items-center space-x-1 mb-1">
-                  <StarRating rating={item.product.rating} size="xs" />
+                  <StarRating rating={item.product.rating} size="sm" />
                   <span className="text-xs text-gray-500">
                     ({item.product.reviews})
                   </span>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { SectionContainer } from "@/components/ui/section-container";
 import { Button } from "@/components/ui/button";
@@ -34,28 +34,11 @@ interface OrderData {
   };
 }
 
-export default function CheckoutSuccessPage() {
+function CheckoutSuccessContent() {
   const searchParams = useSearchParams();
   const [order, setOrder] = useState<OrderData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const reference = searchParams.get("reference");
-    const orderNumber = searchParams.get("orderNumber");
-
-    if (reference) {
-      // Verify payment and get order details
-      verifyPayment(reference);
-    } else if (orderNumber) {
-      // Get order by order number
-      fetchOrderByNumber(orderNumber);
-    } else {
-      // For testing purposes, try to get the latest order
-      console.log("No reference found, trying to get latest order...");
-      fetchLatestOrder();
-    }
-  }, [searchParams, fetchLatestOrder]);
 
   const fetchLatestOrder = useCallback(async () => {
     try {
@@ -76,6 +59,23 @@ export default function CheckoutSuccessPage() {
       setLoading(false);
     }
   }, []);
+
+  useEffect(() => {
+    const reference = searchParams.get("reference");
+    const orderNumber = searchParams.get("orderNumber");
+
+    if (reference) {
+      // Verify payment and get order details
+      verifyPayment(reference);
+    } else if (orderNumber) {
+      // Get order by order number
+      fetchOrderByNumber(orderNumber);
+    } else {
+      // For testing purposes, try to get the latest order
+      console.log("No reference found, trying to get latest order...");
+      fetchLatestOrder();
+    }
+  }, [searchParams, fetchLatestOrder]);
 
   const verifyPayment = async (reference: string) => {
     try {
@@ -367,5 +367,13 @@ export default function CheckoutSuccessPage() {
         </motion.div>
       </SectionContainer>
     </div>
+  );
+}
+
+export default function CheckoutSuccessPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CheckoutSuccessContent />
+    </Suspense>
   );
 }
