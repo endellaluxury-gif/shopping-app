@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
           reference: order.orderNumber,
           callback_url:
             callbackUrl ||
-            `${process.env.NEXT_PUBLIC_BASE_URL}/checkout/success`,
+            `${process.env.NEXT_PUBLIC_BASE_URL}/checkout/success?reference=${order.orderNumber}`,
           metadata: {
             orderId: order._id.toString(),
             orderNumber: order.orderNumber,

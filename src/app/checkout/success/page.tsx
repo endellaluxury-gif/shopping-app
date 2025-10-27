@@ -62,16 +62,32 @@ function CheckoutSuccessContent() {
 
   const fetchLatestOrder = useCallback(async () => {
     try {
+      console.log("Fetching latest order...");
       const response = await fetch("/api/orders");
+
+      if (!response.ok) {
+        console.error(
+          "Failed to fetch orders:",
+          response.status,
+          response.statusText
+        );
+        setError(`Failed to fetch orders: ${response.statusText}`);
+        setLoading(false);
+        return;
+      }
+
       const data = await response.json();
+      console.log("Orders API response:", data);
 
       if (data.orders && data.orders.length > 0) {
         // Get the most recent order
         const latestOrder = data.orders[0];
+        console.log("Latest order found:", latestOrder);
         setOrder(latestOrder);
         // Clear the cart after successful order
         clearCartIfNeeded();
       } else {
+        console.log("No orders found in response");
         setError("No orders found");
       }
     } catch (error) {
@@ -85,22 +101,42 @@ function CheckoutSuccessContent() {
   useEffect(() => {
     const reference = searchParams.get("reference");
     const orderNumber = searchParams.get("orderNumber");
+    const trxref = searchParams.get("trxref"); // Paystack sometimes uses this parameter
+
+    console.log("Success page URL params:", { reference, orderNumber, trxref });
+
+    // Set a timeout to prevent infinite loading
+    const timeoutId = setTimeout(() => {
+      if (loading) {
+        console.error("Loading timeout reached");
+        setError(
+          "Request timed out. Please check your order status or contact support."
+        );
+        setLoading(false);
+      }
+    }, 30000); // 30 second timeout
 
     if (reference) {
       // Verify payment and get order details
       verifyPayment(reference);
+    } else if (trxref) {
+      // Paystack sometimes uses trxref instead of reference
+      verifyPayment(trxref);
     } else if (orderNumber) {
-      // Get order by order number
+      // Get order by order number (for PayPal)
       fetchOrderByNumber(orderNumber);
     } else {
       // For testing purposes, try to get the latest order
       console.log("No reference found, trying to get latest order...");
       fetchLatestOrder();
     }
-  }, [searchParams, fetchLatestOrder]);
+
+    return () => clearTimeout(timeoutId);
+  }, [searchParams, fetchLatestOrder, loading]);
 
   const verifyPayment = async (reference: string) => {
     try {
+      console.log("Verifying payment with reference:", reference);
       const response = await fetch("/api/payments/verify", {
         method: "POST",
         headers: {
@@ -109,7 +145,22 @@ function CheckoutSuccessContent() {
         body: JSON.stringify({ reference }),
       });
 
+      console.log("Payment verification response status:", response.status);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Payment verification failed:", errorData);
+        setError(
+          `Payment verification failed: ${
+            errorData.error || response.statusText
+          }`
+        );
+        setLoading(false);
+        return;
+      }
+
       const data = await response.json();
+      console.log("Payment verification data:", data);
 
       if (data.success) {
         // Fetch full order details
@@ -127,8 +178,21 @@ function CheckoutSuccessContent() {
 
   const fetchOrderById = async (orderId: string) => {
     try {
+      console.log("Fetching order by ID:", orderId);
       const response = await fetch(`/api/orders/${orderId}`);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Failed to fetch order:", response.status, errorData);
+        setError(
+          `Failed to fetch order: ${errorData.error || response.statusText}`
+        );
+        setLoading(false);
+        return;
+      }
+
       const data = await response.json();
+      console.log("Order API response:", data);
 
       if (data.order) {
         setOrder(data.order);

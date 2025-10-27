@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
 import Order from "@/models/Order";
+import User from "@/models/User";
 
 export async function GET(
   request: NextRequest,
@@ -10,7 +11,19 @@ export async function GET(
     await connectDB();
 
     const { id } = await params;
-    const order = await Order.findById(id).populate("user", "name email phone");
+    console.log("Fetching order with ID:", id);
+
+    // Validate MongoDB ObjectId format
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+      console.error("Invalid ObjectId format:", id);
+      return NextResponse.json(
+        { success: false, error: "Invalid order ID format" },
+        { status: 400 }
+      );
+    }
+
+    const order = await Order.findById(id);
+    console.log("Order found:", order ? "Yes" : "No");
 
     if (!order) {
       return NextResponse.json(
@@ -19,11 +32,23 @@ export async function GET(
       );
     }
 
-    return NextResponse.json({ order });
+    // Convert to plain object to avoid serialization issues
+    const orderObj = order.toObject();
+
+    return NextResponse.json({ order: orderObj });
   } catch (error) {
     console.error("Error fetching order:", error);
+    console.error("Error details:", {
+      name: error instanceof Error ? error.name : "Unknown",
+      message: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined,
+    });
     return NextResponse.json(
-      { success: false, error: "Failed to fetch order" },
+      {
+        success: false,
+        error: "Failed to fetch order",
+        details: error instanceof Error ? error.message : String(error),
+      },
       { status: 500 }
     );
   }
