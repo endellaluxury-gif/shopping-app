@@ -14,6 +14,26 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
 import { motion } from "framer-motion";
 import { User, Mail, Phone, MapPin, CreditCard, Lock } from "lucide-react";
+import { PayPalPayment } from "./paypal-payment";
+import { toast } from "sonner";
+
+interface PayPalPaymentData {
+  orderID: string;
+  paymentID: string;
+  status: string;
+  amount: number;
+  currency: string;
+  payer: {
+    email_address: string;
+    payer_id: string;
+    name: {
+      given_name: string;
+      surname: string;
+    };
+  };
+  create_time: string;
+  update_time: string;
+}
 
 const checkoutSchema = z.object({
   // Contact Information
@@ -45,6 +65,9 @@ interface CheckoutFormProps {
 
 export function CheckoutForm({ isGuest, onGuestToggle }: CheckoutFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState<"paystack" | "paypal">(
+    "paystack"
+  );
   const { state: cartState, clearCart } = useCart();
   const router = useRouter();
 
@@ -62,6 +85,78 @@ export function CheckoutForm({ isGuest, onGuestToggle }: CheckoutFormProps) {
       subscribeNewsletter: false,
     },
   });
+
+  const handlePayPalSuccess = async (paymentData: PayPalPaymentData) => {
+    setIsSubmitting(true);
+
+    try {
+      const formData = watch();
+
+      const orderData = {
+        userInfo: {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          phone: formData.phone,
+        },
+        items: cartState.items,
+        totalAmount: cartState.totalPrice,
+        shippingAddress: {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          phone: formData.phone,
+          address: formData.address,
+          city: formData.city,
+          state: formData.state,
+          zipCode: formData.zipCode,
+          country: formData.country,
+        },
+        isGuest: isGuest,
+        paypalPaymentData: paymentData,
+      };
+
+      console.log("Creating PayPal order:", orderData);
+
+      const response = await fetch("/api/orders/paypal", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderData),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("PayPal order creation failed:", errorText);
+        throw new Error(`Failed to create PayPal order: ${errorText}`);
+      }
+
+      const result = await response.json();
+      console.log("PayPal order created successfully:", result);
+
+      // Clear cart
+      clearCart();
+
+      // Redirect to success page
+      router.push(
+        `/checkout/success?orderNumber=${result.order.orderNumber}&paymentMethod=paypal`
+      );
+    } catch (error) {
+      console.error("PayPal order creation error:", error);
+      toast.error("Failed to create order. Please try again.", {
+        style: {
+          background: "#ffffff",
+          color: "#1f2937",
+          border: "1px solid #e5e7eb",
+          boxShadow:
+            "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+        },
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const onSubmit = async (data: CheckoutFormData) => {
     setIsSubmitting(true);
@@ -344,25 +439,122 @@ export function CheckoutForm({ isGuest, onGuestToggle }: CheckoutFormProps) {
           </div>
         </Card>
 
-        {/* Payment Information */}
+        {/* Payment Method Selection */}
         <Card className="p-6">
           <div className="flex items-center space-x-2 mb-4">
             <CreditCard className="h-5 w-5 text-[var(--primary)]" />
-            <h3 className="text-lg font-semibold">Payment</h3>
+            <h3 className="text-lg font-semibold">Payment Method</h3>
           </div>
 
-          <div className="bg-gray-50 p-4 rounded-lg">
-            <div className="flex items-center space-x-2 mb-2">
-              <Lock className="h-4 w-4 text-green-600" />
-              <span className="text-sm font-medium text-green-600">
-                Secure Payment
-              </span>
+          {/* Payment Method Options */}
+          <div className="space-y-4 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Paystack Option */}
+              <div
+                className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                  paymentMethod === "paystack"
+                    ? "border-[var(--primary)] bg-[var(--primary)]/5"
+                    : "border-gray-200 hover:border-gray-300"
+                }`}
+                onClick={() => setPaymentMethod("paystack")}
+              >
+                <div className="flex items-center space-x-3">
+                  <div
+                    className={`w-4 h-4 rounded-full border-2 ${
+                      paymentMethod === "paystack"
+                        ? "border-[var(--primary)] bg-[var(--primary)]"
+                        : "border-gray-300"
+                    }`}
+                  >
+                    {paymentMethod === "paystack" && (
+                      <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
+                    )}
+                  </div>
+                  <div>
+                    <h4 className="font-medium">Paystack</h4>
+                    <p className="text-sm text-gray-600">
+                      Cards, Bank Transfer, USSD
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* PayPal Option */}
+              <div
+                className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                  paymentMethod === "paypal"
+                    ? "border-[var(--primary)] bg-[var(--primary)]/5"
+                    : "border-gray-200 hover:border-gray-300"
+                }`}
+                onClick={() => setPaymentMethod("paypal")}
+              >
+                <div className="flex items-center space-x-3">
+                  <div
+                    className={`w-4 h-4 rounded-full border-2 ${
+                      paymentMethod === "paypal"
+                        ? "border-[var(--primary)] bg-[var(--primary)]"
+                        : "border-gray-300"
+                    }`}
+                  >
+                    {paymentMethod === "paypal" && (
+                      <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
+                    )}
+                  </div>
+                  <div>
+                    <h4 className="font-medium">PayPal</h4>
+                    <p className="text-sm text-gray-600">
+                      PayPal Account, Cards
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
-            <p className="text-sm text-gray-600">
-              Payment will be processed securely through Paystack. You&apos;ll
-              be redirected to complete your payment.
-            </p>
           </div>
+
+          {/* Payment Processing */}
+          {paymentMethod === "paystack" && (
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <div className="flex items-center space-x-2 mb-2">
+                <Lock className="h-4 w-4 text-green-600" />
+                <span className="text-sm font-medium text-green-600">
+                  Secure Payment
+                </span>
+              </div>
+              <p className="text-sm text-gray-600">
+                Payment will be processed securely through Paystack. You&apos;ll
+                be redirected to complete your payment.
+              </p>
+            </div>
+          )}
+
+          {paymentMethod === "paypal" && (
+            <div className="space-y-4">
+              <div className="bg-blue-50 p-4 rounded-lg">
+                <div className="flex items-center space-x-2 mb-2">
+                  <Lock className="h-4 w-4 text-blue-600" />
+                  <span className="text-sm font-medium text-blue-600">
+                    PayPal Secure Payment
+                  </span>
+                </div>
+                <p className="text-sm text-gray-600">
+                  Complete your payment securely through PayPal. You can use
+                  your PayPal account or any major credit card.
+                </p>
+              </div>
+
+              {/* PayPal Payment Component */}
+              <PayPalPayment
+                amount={cartState.totalPrice}
+                currency="USD"
+                onSuccess={handlePayPalSuccess}
+                onError={(error) => {
+                  console.error("PayPal payment error:", error);
+                  toast.error("Payment failed. Please try again.");
+                }}
+                disabled={isSubmitting}
+              />
+            </div>
+          )}
         </Card>
 
         {/* Terms and Newsletter */}
@@ -423,25 +615,27 @@ export function CheckoutForm({ isGuest, onGuestToggle }: CheckoutFormProps) {
           </div>
         </Card>
 
-        {/* Submit Button */}
-        <Button
-          type="submit"
-          size="lg"
-          className="w-full bg-[var(--primary)] hover:bg-[var(--primary)]/90"
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? (
-            <div className="flex items-center space-x-2">
-              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-              <span>Processing...</span>
-            </div>
-          ) : (
-            <div className="flex items-center space-x-2">
-              <Lock className="h-5 w-5" />
-              <span>Complete Order</span>
-            </div>
-          )}
-        </Button>
+        {/* Submit Button - Only show for Paystack */}
+        {paymentMethod === "paystack" && (
+          <Button
+            type="submit"
+            size="lg"
+            className="w-full bg-[var(--primary)] hover:bg-[var(--primary)]/90"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? (
+              <div className="flex items-center space-x-2">
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                <span>Processing...</span>
+              </div>
+            ) : (
+              <div className="flex items-center space-x-2">
+                <Lock className="h-5 w-5" />
+                <span>Complete Order with Paystack</span>
+              </div>
+            )}
+          </Button>
+        )}
       </form>
     </motion.div>
   );

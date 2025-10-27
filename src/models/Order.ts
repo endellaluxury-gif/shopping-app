@@ -22,7 +22,9 @@ export interface IOrder extends Document {
     | "delivered"
     | "cancelled";
   paymentStatus: "pending" | "paid" | "failed" | "refunded";
+  paymentMethod?: "paystack" | "paypal";
   paymentReference?: string;
+  paymentID?: string; // PayPal payment ID
   shippingAddress: {
     name: string;
     email: string;
@@ -80,7 +82,15 @@ const OrderSchema = new Schema<IOrder>(
       enum: ["pending", "paid", "failed", "refunded"],
       default: "pending",
     },
+    paymentMethod: {
+      type: String,
+      enum: ["paystack", "paypal"],
+      default: "paystack",
+    },
     paymentReference: {
+      type: String,
+    },
+    paymentID: {
       type: String,
     },
     shippingAddress: {

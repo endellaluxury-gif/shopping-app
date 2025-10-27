@@ -213,7 +213,7 @@ export function MobileMenu({
                     <div className="flex items-center gap-2 text-blue-100">
                       <span className="text-sm">Welcome to Endella</span>
                     </div>
-                    <div className="flex gap-2 mt-4">
+                    {/*    <div className="flex gap-2 mt-4">
                       <Button
                         variant="outline"
                         size="sm"
@@ -230,7 +230,7 @@ export function MobileMenu({
                       >
                         <Link href="/auth/register">Sign Up</Link>
                       </Button>
-                    </div>
+                    </div> */}
                   </div>
                 )}
               </div>
@@ -358,35 +358,6 @@ export function MobileMenu({
                     {/* Fixed Bottom Section */}
                     <div className="flex-shrink-0 p-2 space-y-2">
                       <Separator />
-
-                      {/* Account Section */}
-                      {isAuthenticated ? (
-                        <div className="space-y-1">
-                          <Link
-                            href="/account"
-                            onClick={handleClose}
-                            className="flex items-center gap-3 p-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
-                          >
-                            <User className="h-5 w-5 text-gray-500" />
-                            <span>My Account</span>
-                          </Link>
-                          <button className="flex items-center gap-3 p-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors w-full">
-                            <LogOut className="h-5 w-5" />
-                            <span>Logout</span>
-                          </button>
-                        </div>
-                      ) : (
-                        <div className="space-y-1">
-                          <Link
-                            href="/account"
-                            onClick={handleClose}
-                            className="flex items-center gap-3 p-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
-                          >
-                            <User className="h-5 w-5 text-gray-500" />
-                            <span>My Account</span>
-                          </Link>
-                        </div>
-                      )}
                     </div>
                   </>
                 )}

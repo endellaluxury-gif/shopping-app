@@ -9,6 +9,8 @@ import { Badge } from "@/components/ui/badge";
 import { CheckCircle, Package, Home } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useCart } from "@/contexts/CartContext";
+import { toast } from "sonner";
 
 interface OrderData {
   id: string;
@@ -39,6 +41,24 @@ function CheckoutSuccessContent() {
   const [order, setOrder] = useState<OrderData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [cartCleared, setCartCleared] = useState(false);
+  const { clearCart } = useCart();
+
+  const clearCartIfNeeded = useCallback(() => {
+    if (!cartCleared) {
+      clearCart();
+      setCartCleared(true);
+      toast.success("Your cart has been cleared after successful order!", {
+        style: {
+          background: "#ffffff",
+          color: "#1f2937",
+          border: "1px solid #e5e7eb",
+          boxShadow:
+            "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+        },
+      });
+    }
+  }, [clearCart, cartCleared]);
 
   const fetchLatestOrder = useCallback(async () => {
     try {
@@ -49,6 +69,8 @@ function CheckoutSuccessContent() {
         // Get the most recent order
         const latestOrder = data.orders[0];
         setOrder(latestOrder);
+        // Clear the cart after successful order
+        clearCartIfNeeded();
       } else {
         setError("No orders found");
       }
@@ -58,7 +80,7 @@ function CheckoutSuccessContent() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [clearCartIfNeeded]);
 
   useEffect(() => {
     const reference = searchParams.get("reference");
@@ -110,6 +132,8 @@ function CheckoutSuccessContent() {
 
       if (data.order) {
         setOrder(data.order);
+        // Clear the cart after successful order
+        clearCartIfNeeded();
       } else {
         setError("Order not found");
       }
@@ -128,6 +152,8 @@ function CheckoutSuccessContent() {
 
       if (data.orders && data.orders.length > 0) {
         setOrder(data.orders[0]);
+        // Clear the cart after successful order
+        clearCartIfNeeded();
       } else {
         setError("Order not found");
       }

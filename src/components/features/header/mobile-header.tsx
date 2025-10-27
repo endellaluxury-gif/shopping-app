@@ -12,12 +12,14 @@ import { MobileSearchDialog } from "@/components/search/mobile-search-dialog";
 import { MobileMenu } from "@/components/mobile-menu";
 import { addRecentSearch } from "@/lib/search-storage";
 import Link from "next/link";
+import { useCart } from "@/contexts/CartContext";
 
 export function MobileHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [cartCount] = useState(2);
+  const { state: cartState } = useCart();
   const [currentLanguage, setCurrentLanguage] = useState("en");
 
   const debouncedSearch = useDebounce(searchQuery, 500);
@@ -44,28 +46,6 @@ export function MobileHeader() {
       transition={{ duration: 0.6, delay: 0.2 }}
       className="lg:hidden"
     >
-      <SectionContainer maxWidth="1440" padding="sm" as="div">
-        {/* Top Row - Location, Language, Sign In */}
-        <div className="flex items-center justify-between text-[#666666] text-xs py-1 border-b border-gray-100">
-          {/* Location */}
-          <div className="flex items-center space-x-1">
-            <MapPin className="h-3 w-3" />
-            <span className="text-[#666666]">Lincoln- 344, Chicago, USA</span>
-          </div>
-
-          <div className="flex items-center space-x-3">
-            <div className="w-px h-4 bg-gray-300"></div>
-
-            <Link
-              href="/auth"
-              className="text-secondary hover:text-primary transition-colors cursor-pointer text-xs"
-            >
-              Sign In
-            </Link>
-          </div>
-        </div>
-      </SectionContainer>
-
       {/* Main Row - Menu, Logo, Icons */}
       <div className="border-b border-gray-200 mb-2">
         <SectionContainer maxWidth="1440" padding="sm" as="div">
@@ -93,7 +73,7 @@ export function MobileHeader() {
             >
               <div className="relative w-16 h-16">
                 <Image
-                  src="/logo/logo.svg"
+                  src="/endella.jpg"
                   alt="Pride of Afrika"
                   fill
                   className="object-contain"
@@ -114,27 +94,33 @@ export function MobileHeader() {
                   className="h-6 w-6"
                 />
               </Button>
-
-              {/* Shopping Cart */}
-              <div className="relative">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="p-1 cursor-pointer"
-                >
-                  <Image
-                    src="/icon/cart.svg"
-                    alt="Shopping Cart"
-                    width={24}
-                    height={24}
-                    className="h-6 w-6"
-                  />
-                  {cartCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-primary text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
-                      {cartCount}
-                    </span>
-                  )}
-                </Button>
+              <div className="flex items-center space-x-2">
+                <div className="relative">
+                  <Link href="/cart">
+                    <Button variant="ghost" size="icon" className="p-0">
+                      <Image
+                        src="/icon/cart.svg"
+                        alt="Shopping Cart"
+                        width={32}
+                        height={32}
+                        className="h-8 w-8"
+                      />
+                      {cartState.totalItems > 0 && (
+                        <span className="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                          {cartState.totalItems}
+                        </span>
+                      )}
+                    </Button>
+                  </Link>
+                </div>
+                <div className="text-xs text-muted-foreground cursor-pointer">
+                  <Link href="/cart">
+                    <div className="text-[#666666] mb-1">cart:</div>
+                    <div className="font-semibold text-foreground">
+                      ₦{cartState.totalPrice.toLocaleString()}
+                    </div>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>

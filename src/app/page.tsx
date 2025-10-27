@@ -40,7 +40,6 @@ export default function HomePage() {
         products={getNewArrivals()}
         viewAllLink="/products"
       />
-      <PromotionalBanners />
       <ProductGrid
         title="Clothing Essentials"
         products={getClothingProducts()}
