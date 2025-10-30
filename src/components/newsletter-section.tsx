@@ -6,14 +6,57 @@ import { Input } from "@/components/ui/input";
 import { Mail } from "lucide-react";
 import { useState } from "react";
 import { SectionContainer } from "./ui/section-container";
+import { toast } from "sonner";
 
 export function NewsletterSection() {
   const [email, setEmail] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Newsletter subscription:", email);
-    // Add your newsletter subscription logic here
+    try {
+      const res = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const result = await res.json();
+      if (res.ok && result.success) {
+        toast.success("Subscribed successfully", {
+          description: "Thanks for joining our newsletter!",
+          duration: 4000,
+          style: {
+            background: "#f0fdf4",
+            color: "#166534",
+            border: "1px solid #22c55e",
+            fontWeight: "500",
+          },
+        });
+        setEmail("");
+      } else {
+        toast.error("Subscription failed", {
+          description: result.error || "Please try again later.",
+          duration: 5000,
+          style: {
+            background: "#fef2f2",
+            color: "#dc2626",
+            border: "1px solid #ef4444",
+            fontWeight: "500",
+          },
+        });
+      }
+    } catch (err) {
+      console.error("Newsletter submit error:", err);
+      toast.error("Network error", {
+        description: "Please check your connection and try again.",
+        duration: 5000,
+        style: {
+          background: "#fef2f2",
+          color: "#dc2626",
+          border: "1px solid #ef4444",
+          fontWeight: "500",
+        },
+      });
+    }
   };
 
   return (
