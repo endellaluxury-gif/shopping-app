@@ -44,6 +44,26 @@ export const products: Product[] = [
 
   // EDL ROYALTY products
   {
+    id: 7,
+    name: "EDL Royalty",
+    badge: "Premium",
+    price: 160000,
+    rating: 4.9,
+    reviews: 12,
+    image: "/products/edl_royal3.jpg",
+    category: "EDL ROYALTY",
+  },
+  {
+    id: 8,
+    name: "EDL Royalty",
+    badge: "Premium",
+    price: 160000,
+    rating: 4.9,
+    reviews: 12,
+    image: "/products/edl_royal2.jpg",
+    category: "EDL ROYALTY",
+  },
+  {
     id: 9,
     name: "EDL Royalty",
     badge: "Premium",
@@ -248,6 +268,18 @@ export const products: Product[] = [
     rating: 4.9,
     reviews: 45,
     image: "/products/edl_exclusive.jpg",
+    category: "EDL SPECIAL",
+  },
+  {
+    id: 40,
+    name: "EDL Exclusive",
+    badge: "Premium",
+    price: 160000,
+    rating: 4.9,
+    reviews: 23,
+    image: "/products/edl_jacket.jpg",
+    video: "/products/edl_jacket_red.mp4",
+    images: ["/products/edl_jacket.jpg", "/products/edl_suits1.jpg"],
     category: "EDL SPECIAL",
   },
 ];

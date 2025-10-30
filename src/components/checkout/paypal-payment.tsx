@@ -1,7 +1,7 @@
 "use client";
 
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 interface PayPalOrder {
@@ -59,14 +59,22 @@ export function PayPalPayment({
     currency: currency,
     intent: "capture",
     components: "buttons",
-    disableFunding: "credit,card",
+    locale: "en_US",
+    commit: true,
   };
+
+  useEffect(() => {
+    // Diagnostics: confirm options and script presence
+    console.log("PayPal SDK options:", paypalOptions);
+    const scriptEl = document.querySelector(
+      'script[src*="paypal.com/sdk/js"]'
+    );
+    console.log("PayPal SDK script tag present:", !!scriptEl, scriptEl);
+  }, [paypalOptions]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const createOrder = async (data: Record<string, unknown>, actions: any) => {
     try {
-      setIsProcessing(true);
-
       // Convert amount to PayPal format (PayPal expects string with 2 decimal places)
       const paypalAmount = amount.toFixed(2);
 
@@ -185,9 +193,28 @@ export function PayPalPayment({
             </div>
           ) : (
             <PayPalButtons
+              fundingSource="paypal"
               createOrder={createOrder}
               onApprove={onApprove}
-              onError={onPayPalError}
+              onError={(err) => {
+                console.error("PayPal onError:", err);
+                try {
+                  console.error("PayPal onError (stringified):", JSON.stringify(err));
+                } catch {}
+                onPayPalError(err as unknown as Error);
+              }}
+              onClick={(data, actions) => {
+                console.log("PayPal onClick", { data });
+                return actions.resolve();
+              }}
+              onInit={(data, actions) => {
+                console.log("PayPal onInit", { data });
+                actions.enable();
+              }}
+              onShippingChange={(data, actions) => {
+                console.log("PayPal onShippingChange", { data });
+                return actions.resolve();
+              }}
               onCancel={onCancel}
               disabled={disabled}
               style={{
@@ -197,6 +224,7 @@ export function PayPalPayment({
                 label: "paypal",
                 height: 45,
               }}
+              forceReRender={[currency, amount]}
             />
           )}
         </div>

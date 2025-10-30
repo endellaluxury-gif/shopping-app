@@ -86,6 +86,14 @@ export function CheckoutForm({ isGuest, onGuestToggle }: CheckoutFormProps) {
     },
   });
 
+  // Compute PayPal amount in selected currency (cart totals are in NGN)
+  const paypalCurrency = process.env.NEXT_PUBLIC_PAYPAL_CURRENCY || "EUR";
+  const ngnPerUnit = Number(process.env.NEXT_PUBLIC_NGN_PER_UNIT || 1700);
+  const paypalAmount = Math.max(
+    1,
+    Number((cartState.totalPrice / ngnPerUnit).toFixed(2))
+  );
+
   const handlePayPalSuccess = async (paymentData: PayPalPaymentData) => {
     setIsSubmitting(true);
 
@@ -544,8 +552,8 @@ export function CheckoutForm({ isGuest, onGuestToggle }: CheckoutFormProps) {
 
               {/* PayPal Payment Component */}
               <PayPalPayment
-                amount={cartState.totalPrice}
-                currency="USD"
+                amount={paypalAmount}
+                currency={paypalCurrency}
                 onSuccess={handlePayPalSuccess}
                 onError={(error) => {
                   console.error("PayPal payment error:", error);

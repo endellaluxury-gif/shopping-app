@@ -328,12 +328,12 @@ export function ProductDetailsClient({ productId }: ProductDetailsClientProps) {
             {/* Price */}
             <div className="flex items-center gap-4">
               <span className="text-3xl font-bold text-gray-900">
-                £{product.price}
+                ₦{product.price}
               </span>
               {product.originalPrice &&
                 product.originalPrice > product.price && (
                   <span className="text-xl text-gray-500 line-through">
-                    £{product.originalPrice}
+                    ₦{product.originalPrice}
                   </span>
                 )}
             </div>
@@ -553,7 +553,7 @@ export function ProductDetailsClient({ productId }: ProductDetailsClientProps) {
           <Card className="p-6 text-center">
             <Truck className="h-8 w-8 text-[var(--primary)] mx-auto mb-3" />
             <h3 className="font-semibold text-gray-900 mb-2">Free Shipping</h3>
-            <p className="text-sm text-gray-600">On orders over £50</p>
+            <p className="text-sm text-gray-600">On orders over ₦35,000</p>
           </Card>
           <Card className="p-6 text-center">
             <Shield className="h-8 w-8 text-[var(--primary)] mx-auto mb-3" />
