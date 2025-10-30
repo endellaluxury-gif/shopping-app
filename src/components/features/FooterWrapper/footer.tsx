@@ -1,42 +1,24 @@
 "use client";
 
 import { motion } from "framer-motion";
-import {
-  Facebook,
-  Twitter,
-  Instagram,
-  Youtube,
-  Mail,
-  Phone,
-  MapPin,
-} from "lucide-react";
+import { Facebook, Instagram, Mail, Phone, MapPin } from "lucide-react";
 import { SectionContainer } from "@/components/ui/section-container";
 import Image from "next/image";
 import Link from "next/link";
 
 const linkMap: Record<string, string> = {
   FAQ: "/faq",
-  "Delivery & Returns": "/delivery-returns",
+  "Delivery & Returns": "/",
   "Contact Us": "/contact-us",
-  "Beauty Shop": "/products",
+  Products: "/products",
   "About Us": "/about-us",
-  "Fashion Blog": "/blog",
-  "Style Guide": "/style-guide",
-  "Beauty Tips": "/beauty-tips",
-  "Privacy Policy": "/privacy-policy",
-  "Shipping Policy": "/shipping-policy",
-  "Terms & Condition": "/terms",
-  "Refund Policy": "/refund-policy",
+  "Terms & Condition": "/",
+  "Refund Policy": "/",
+  Cart: "/cart",
 };
 const footerLinks = {
-  "Help & Support": ["FAQ", "Delivery & Returns", "Contact Us"],
-  "Fashion & Beauty": [
-    "Beauty Shop",
-    "About Us",
-    "Fashion Blog",
-    "Style Guide",
-    "Beauty Tips",
-  ],
+  Products: ["FAQ", "Products", "Cart"],
+  "Our Company": ["About Us", "Contact Us", "FAQ"],
   Legal: [
     "Privacy Policy",
     "Shipping Policy",
@@ -46,10 +28,16 @@ const footerLinks = {
 };
 
 const socialLinks = [
-  { icon: Facebook, href: "#", label: "Facebook" },
-  { icon: Twitter, href: "#", label: "Twitter" },
-  { icon: Instagram, href: "#", label: "Instagram" },
-  { icon: Youtube, href: "#", label: "YouTube" },
+  {
+    icon: Facebook,
+    href: "https://www.facebook.com/share/17yUUttWhg/",
+    label: "Facebook",
+  },
+  {
+    icon: Instagram,
+    href: "https://www.instagram.com/endellacoutures?utm_source=qr&igsh=d2hpbXB4azY5Z3Nw",
+    label: "Instagram",
+  },
 ];
 
 export function Footer() {
@@ -85,10 +73,11 @@ export function Footer() {
               </div>
 
               <p className="text-white/80 max-w-md text-sm">
-                Endella Luxury is Nigeria&apos;s premier destination for exotic
-                fashion and beauty products. We specialize in premium clothing,
-                hoodies, jackets, vogue culture pieces, and high-quality makeup
-                and beauty essentials for the modern lifestyle.
+                Endella Natural Beauty is Nigeria&apos;s premier destination for
+                exotic fashion and beauty products. We specialize in premium
+                clothing, hoodies, jackets, vogue culture pieces, and
+                high-quality makeup and beauty essentials for the modern
+                lifestyle.
               </p>
 
               <div className="space-y-2">
@@ -156,7 +145,7 @@ export function Footer() {
           >
             <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
               <p className="text-white/70 text-sm">
-                © {new Date().getFullYear()} Endella Luxury. All rights
+                © {new Date().getFullYear()} Endella Natural Beauty. All rights
                 reserved.
               </p>
 

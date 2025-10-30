@@ -2,9 +2,7 @@
 
 import { HeroSection } from "@/components/hero-section";
 import { FeaturesSection } from "@/components/features-section";
-import { CategoriesSection } from "@/components/categories-section";
 import { ProductGrid } from "@/components/product-grid";
-import { PromotionalBanners } from "@/components/promotional-banners";
 import { StatsSection } from "@/components/stats-section";
 import { TestimonialsSection } from "@/components/testimonials-section";
 import { NewsletterSection } from "@/components/newsletter-section";
@@ -29,7 +27,6 @@ export default function HomePage() {
     <div className="bg-background">
       <HeroSection content={dynamicHeroContent} />
       <FeaturesSection />
-      <CategoriesSection />
       <ProductGrid
         title="Best Seller Products"
         products={getBestSellerProducts()}

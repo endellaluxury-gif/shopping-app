@@ -13,9 +13,9 @@ const inter = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Endella Beauty - Premium Beauty Products & Cosmetics",
+  title: "Endella Fashion - Premium Clothing & Streetwear",
   description:
-    "Discover premium beauty products, cosmetics, and skincare essentials. Quality beauty products delivered to your doorstep with care.",
+    "Explore premium clothing and streetwear: hoodies, jackets, joggers, kimonos, and vogue-inspired pieces. Quality apparel delivered to your doorstep with care.",
 };
 
 export default function RootLayout({

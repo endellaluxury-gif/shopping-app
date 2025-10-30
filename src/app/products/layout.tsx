@@ -2,24 +2,28 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | Endella Beauty",
-    default: "Products - Endella Beauty",
+    template: "%s | Endella Natural Beauty",
+    default: "Products - Endella Natural Beauty",
   },
   description:
-    "Discover our complete collection of premium beauty products, skincare essentials, and luxury cosmetics. Shop by category with advanced filtering options.",
+    "Explore our complete collection of premium fashion and streetwear — hoodies, jackets, joggers, kimonos, and vogue-inspired pieces. Shop by category with advanced filtering options.",
   keywords: [
-    "beauty products",
-    "skincare",
-    "cosmetics",
-    "premium beauty",
-    "Endella Beauty",
-    "beauty shop",
-    "online beauty store",
-    "beauty categories",
-    "luxury cosmetics",
+    "fashion",
+    "clothing",
+    "streetwear",
+    "hoodies",
+    "jackets",
+    "joggers",
+    "kimonos",
+    "vogue culture",
+    "Endella Fashion",
+    "online clothing store",
+    "premium apparel",
+    "men's fashion",
+    "women's fashion",
   ],
   openGraph: {
-    title: "Products - Endella Beauty",
+    title: "Products - Endella Natural Beauty",
     description:
       "Discover our complete collection of premium beauty products, skincare essentials, and luxury cosmetics.",
     type: "website",

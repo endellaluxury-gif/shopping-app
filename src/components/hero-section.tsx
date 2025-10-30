@@ -7,6 +7,7 @@ import { DynamicButton } from "@/components/ui/dynamic-button";
 import { ArrowRight, Star } from "lucide-react";
 import { SectionContainer } from "@/components/ui/section-container";
 import Image from "next/image";
+import Link from "next/link";
 
 // Dynamic content interface - can be managed from admin
 interface HeroContent {
@@ -25,16 +26,16 @@ interface HeroContent {
 // Default content - can be overridden from admin
 const defaultHeroContent: HeroContent = {
   welcomeText: "WELCOME TO ENDELLA",
-  mainHeadline: "Your Premium Destination for Beauty & Skincare",
+  mainHeadline: "Your Premium Destination for Fashion & Style",
   description:
-    "Discover our curated collection of high-quality makeup, skincare, and beauty products — delivered with care to enhance your natural beauty.",
+    "Discover our curated collection of high-quality fashion and style products — delivered with care to enhance your natural beauty.",
   shopNowText: "Shop now",
   viewCategoriesText: "View Categories",
-  summerSaleText: "BEAUTY SALE",
-  summerSaleDiscount: "50% OFF",
-  summerSaleDescription: "Selected Skincare & Makeup",
+  summerSaleText: "Trending Wears",
+  summerSaleDiscount: "20% OFF",
+  summerSaleDescription: "EDL Royal",
   bestDealText: "BEST DEAL",
-  bestDealDescription: "Premium Beauty Collection",
+  bestDealDescription: "Premium Mens Wears",
 };
 
 export function HeroSection({
@@ -78,7 +79,7 @@ export function HeroSection({
             {/* Background Image */}
             <div className="absolute inset-0 -z-10 rounded-2xl">
               <Image
-                src="/hero/hero1.jpg"
+                src="/hero/hero_new.jpg"
                 alt="Hero Background"
                 fill
                 className="object-cover rounded-2xl"
@@ -134,18 +135,20 @@ export function HeroSection({
                 transition={{ duration: 0.6, delay: 0.9, ease: "easeOut" }}
                 className="relative z-10 pt-6 lg:pt-8"
               >
-                <DynamicButton
-                  size="lg"
-                  bgColor="bg-white"
-                  textColor="text-[var(--primary)]"
-                  icon={<ArrowRight className="h-4 w-4" />}
-                  iconPosition="after"
-                  hoverBgColor="hover:bg-[var(--primary)]"
-                  hoverTextColor="hover:text-white"
-                  className="shadow-sm group"
-                >
-                  {heroContent.shopNowText}
-                </DynamicButton>
+                <Link href="/products">
+                  <DynamicButton
+                    size="lg"
+                    bgColor="bg-white"
+                    textColor="text-[var(--primary)]"
+                    icon={<ArrowRight className="h-4 w-4" />}
+                    iconPosition="after"
+                    hoverBgColor="hover:bg-[var(--primary)]"
+                    hoverTextColor="hover:text-white"
+                    className="shadow-sm group"
+                  >
+                    {heroContent.shopNowText}
+                  </DynamicButton>
+                </Link>
               </motion.div>
             </div>
           </motion.div>
@@ -174,7 +177,7 @@ export function HeroSection({
                 {/* Background Image */}
                 <div className="absolute inset-0 -z-10">
                   <Image
-                    src="/hero/hero2.jpg"
+                    src="/products/edl_jacket.jpg"
                     alt="Summer Sale Background"
                     fill
                     className="object-cover"
@@ -182,29 +185,31 @@ export function HeroSection({
                 </div>
 
                 <div className="text-start relative z-10 h-full flex flex-col">
-                  <div className="inline-block bg-accent text-accent-foreground rounded-full text-sm mb-1 font-medium capitalize">
+                  <div className="inline-block bg-accent text-accent-foreground text-white rounded-full text-sm mb-1 font-medium capitalize">
                     {heroContent.summerSaleText}
                   </div>
-                  <h3 className="text-2xl lg:text-3xl font-semibold text-[#1A1A1A] capitalize mb-2">
+                  <h3 className="text-2xl lg:text-3xl font-semibold text-white capitalize mb-2">
                     {heroContent.summerSaleDiscount}
                   </h3>
-                  <p className="text-[#666666] text-xs lg:text-sm mb-4">
+                  <p className="text-white text-xs lg:text-sm mb-4">
                     {heroContent.summerSaleDescription}
                   </p>
 
                   {/* Transparent Shop Now Button */}
-                  <DynamicButton
-                    size="lg"
-                    bgColor="bg-transparent"
-                    textColor="text-[var(--primary)]"
-                    icon={<ArrowRight className="h-4 w-4" />}
-                    iconPosition="after"
-                    hoverBgColor="hover:bg-[var(--primary)]"
-                    hoverTextColor="hover:text-white"
-                    className="w-fit"
-                  >
-                    {heroContent.shopNowText}
-                  </DynamicButton>
+                  <Link href="/products">
+                    <DynamicButton
+                      size="lg"
+                      bgColor="bg-transparent"
+                      textColor="text-[var(--primary)]"
+                      icon={<ArrowRight className="h-4 w-4" />}
+                      iconPosition="after"
+                      hoverBgColor="hover:bg-[var(--primary)]"
+                      hoverTextColor="hover:text-white"
+                      className="w-fit"
+                    >
+                      {heroContent.shopNowText}
+                    </DynamicButton>
+                  </Link>
                 </div>
               </div>
             </motion.div>
@@ -241,18 +246,20 @@ export function HeroSection({
                     </h3>
 
                     {/* Transparent Shop Now Button */}
-                    <DynamicButton
-                      size="lg"
-                      bgColor="bg-transparent"
-                      textColor="text-[var(--primary)]"
-                      icon={<ArrowRight className="h-4 w-4" />}
-                      iconPosition="after"
-                      hoverBgColor="hover:bg-white"
-                      hoverTextColor="hover:text-[var(--primary)]"
-                      className="w-fit"
-                    >
-                      {heroContent.shopNowText}
-                    </DynamicButton>
+                    <Link href="/products">
+                      <DynamicButton
+                        size="lg"
+                        bgColor="bg-transparent"
+                        textColor="text-[var(--primary)]"
+                        icon={<ArrowRight className="h-4 w-4" />}
+                        iconPosition="after"
+                        hoverBgColor="hover:bg-white"
+                        hoverTextColor="hover:text-[var(--primary)]"
+                        className="w-fit"
+                      >
+                        {heroContent.shopNowText}
+                      </DynamicButton>
+                    </Link>
                   </div>
                 </div>
               </div>

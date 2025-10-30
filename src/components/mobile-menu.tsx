@@ -16,6 +16,7 @@ import {
   ShoppingCart,
   X,
   Menu,
+  Shirt,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -276,6 +277,14 @@ export function MobileMenu({
                           <span>FAQ</span>
                         </Link>
                         <Link
+                          href="/products"
+                          onClick={handleClose}
+                          className="flex items-center gap-3 text-sm p-2 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
+                        >
+                          <Shirt className="h-5 w-5 text-gray-500" />
+                          <span>Products</span>
+                        </Link>
+                        <Link
                           href="/contact-us"
                           onClick={handleClose}
                           className="flex items-center gap-3 text-sm p-2 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
@@ -285,78 +294,6 @@ export function MobileMenu({
                         </Link>
                       </div>
 
-                      <Separator />
-                    </div>
-
-                    {/* Scrollable Categories Section - Takes remaining height */}
-                    <div className="flex-1 min-h-0 px-2">
-                      <div className="h-full flex flex-col">
-                        <button
-                          onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
-                          className="w-full flex items-center gap-2 p-3 bg-[#F0FDF4] rounded-lg border-l-4 border-[#16A34A] cursor-pointer flex-shrink-0"
-                        >
-                          <Menu className="h-4 w-4 text-[#16A34A]" />
-                          <span className="font-medium text-[#16A34A]">
-                            Categories
-                          </span>
-                          <motion.div
-                            animate={{ rotate: isCategoriesOpen ? 90 : 0 }}
-                            transition={{ duration: 0.2 }}
-                            className="ml-auto"
-                          >
-                            <ChevronRight className="h-4 w-4 text-[#16A34A]" />
-                          </motion.div>
-                        </button>
-
-                        {/* Categories List - Scrollable */}
-                        <div className="flex-1 overflow-y-auto bg-[#F9F9F9] border-b-2 border-gray-200">
-                          <AnimatePresence>
-                            {isCategoriesOpen && (
-                              <motion.div
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: "auto" }}
-                                exit={{ opacity: 0, height: 0 }}
-                                transition={{ duration: 0.3 }}
-                                className="space-y-1 py-2"
-                              >
-                                {categories.map((category, index) => (
-                                  <motion.button
-                                    key={category.id}
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: index * 0.05 }}
-                                    onClick={() =>
-                                      handleCategoryClick(category)
-                                    }
-                                    className="w-full flex items-center justify-between p-3 text-left hover:bg-gray-50 rounded-lg transition-colors"
-                                    whileHover={{ scale: 1.02 }}
-                                    whileTap={{ scale: 0.98 }}
-                                  >
-                                    <div className="flex items-center gap-3">
-                                      {category.icon && (
-                                        <span className="text-sm">
-                                          {category.icon}
-                                        </span>
-                                      )}
-                                      <span className="text-gray-900 text-sm">
-                                        {category.name}
-                                      </span>
-                                    </div>
-                                    {category.subCategories &&
-                                      category.subCategories.length > 0 && (
-                                        <ChevronRight className="h-4 w-4 text-gray-400 text-sm" />
-                                      )}
-                                  </motion.button>
-                                ))}
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Fixed Bottom Section */}
-                    <div className="flex-shrink-0 p-2 space-y-2">
                       <Separator />
                     </div>
                   </>
