@@ -8,6 +8,10 @@ export interface Category {
 
 export const categories: Category[] = [
   {
+    id: 1,
+    name: "Endella Natural Beauty Products",
+  },
+  {
     id: 2,
     name: "EDL SHIRTS / VALID SET",
   },

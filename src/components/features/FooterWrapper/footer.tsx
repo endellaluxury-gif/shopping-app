@@ -73,11 +73,11 @@ export function Footer() {
               </div>
 
               <p className="text-white/80 max-w-md text-sm">
-                Endella Natural Beauty is Nigeria&apos;s premier destination for
-                exotic fashion and beauty products. We specialize in premium
-                clothing, hoodies, jackets, vogue culture pieces, and
-                high-quality makeup and beauty essentials for the modern
-                lifestyle.
+                Endella Couture andNatural Beauty is Nigeria&apos;s premier
+                destination for exotic fashion and beauty products. We
+                specialize in premium clothing, hoodies, jackets, vogue culture
+                pieces, and high-quality makeup and beauty essentials for the
+                modern lifestyle.
               </p>
 
               <div className="space-y-2">

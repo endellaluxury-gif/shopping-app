@@ -26,7 +26,8 @@ interface HeroContent {
 // Default content - can be overridden from admin
 const defaultHeroContent: HeroContent = {
   welcomeText: "WELCOME TO ENDELLA",
-  mainHeadline: "Your Premium Destination for Fashion & Style",
+  mainHeadline:
+    "Your Premium Destination for Fashion Style plus Natural Beauty Products",
   description:
     "Discover our curated collection of high-quality fashion and style products — delivered with care to enhance your natural beauty.",
   shopNowText: "Shop now",
@@ -79,13 +80,16 @@ export function HeroSection({
             {/* Background Image */}
             <div className="absolute inset-0 -z-10 rounded-2xl">
               <Image
-                src="/hero/hero_new.jpg"
+                src="/products/edl_shirt_and_hat.jpg"
                 alt="Hero Background"
                 fill
                 className="object-cover rounded-2xl"
                 priority
               />
             </div>
+
+            {/* Dark Overlay */}
+            <div className="absolute inset-0 bg-black/40 rounded-2xl -z-10"></div>
 
             {/* Content Container */}
             <div className="relative w-full lg:w-[70%] xl:w-[80%] z-10 flex flex-col justify-center flex-1 p-6 lg:p-8">

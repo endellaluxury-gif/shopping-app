@@ -17,7 +17,7 @@ export const products: Product[] = [
   // EDL SHIRTS / VALID SET products
   {
     id: 1,
-    name: "EDL Couture HD",
+    name: "HD Shirts Set",
     badge: "New",
     price: 100000,
     rating: 4.6,
@@ -27,7 +27,7 @@ export const products: Product[] = [
   },
   {
     id: 2,
-    name: "EDL Couture Cream",
+    name: "HD Shirts Set",
     badge: "New",
     price: 100000,
     rating: 4.8,
@@ -62,7 +62,7 @@ export const products: Product[] = [
     price: 100000,
     rating: 4.6,
     reviews: 17,
-    image: "/products/edl_couture.jpg",
+    image: "/products/endella_couture.jpg",
     category: "PHANTOM TROUSER",
   },
   {
@@ -72,12 +72,12 @@ export const products: Product[] = [
     price: 100000,
     rating: 4.6,
     reviews: 22,
-    image: "/products/edl_couture_white.jpg",
+    image: "/products/endella_couture_white.jpg",
     category: "PHANTOM TROUSER",
   },
   {
     id: 7,
-    name: "EDL Royal Blue",
+    name: "EDL Executive T suit",
     badge: "New",
     price: 160000,
     rating: 4.8,
@@ -87,7 +87,7 @@ export const products: Product[] = [
   },
   {
     id: 8,
-    name: "EDL Royal Brown",
+    name: "EDL Executive T suit",
     badge: "New",
     price: 160000,
     rating: 4.9,
@@ -225,32 +225,10 @@ export const products: Product[] = [
     image: "/products/joggers_white1.jpg",
     category: "PHANTOM TROUSER",
   },
-  {
-    id: 21,
-    name: "EDL Orange Joggers",
-    badge: "New",
-    price: 80000,
-    rating: 4.9,
-    reviews: 67,
-    video: "/videos/joggers2.mp4",
-    image: "/products/joggers1.jpg",
-    category: "PHANTOM TROUSER",
-  },
-  {
-    id: 22,
-    name: "EDL White Joggers",
-    badge: "Best Seller",
-    price: 80000,
-    originalPrice: 90000,
-    rating: 4.8,
-    reviews: 123,
-    image: "/products/joggers_white1.jpg",
-    category: "PHANTOM TROUSER",
-  },
 
   // KIMONO products
   {
-    id: 23,
+    id: 21,
     name: "EDL Vogue Culture",
     badge: "Best Seller",
     price: 70000,
@@ -259,20 +237,10 @@ export const products: Product[] = [
     image: "/products/vogue_culture.jpg",
     category: "KIMONO",
   },
-  {
-    id: 24,
-    name: "EDL Smart Hoodie",
-    badge: "New",
-    price: 80000,
-    rating: 4.8,
-    reviews: 45,
-    image: "/products/smart_hoodie.jpg",
-    category: "JACKET / HOODIE",
-  },
 
   // Weather Friendly Collection
   {
-    id: 25,
+    id: 22,
     name: "EDL Weather Friendly Smash Set",
     badge: "Best Seller",
     price: 80000,
@@ -282,7 +250,7 @@ export const products: Product[] = [
     category: "EDL SPECIAL",
   },
   {
-    id: 26,
+    id: 23,
     name: "EDL Weather Friendly Smash Set Brown",
     badge: "New",
     price: 80000,
@@ -292,7 +260,7 @@ export const products: Product[] = [
     category: "EDL SPECIAL",
   },
   {
-    id: 27,
+    id: 24,
     name: "EDL Vintage Shirt",
     badge: "Limited",
     price: 30000,
@@ -304,7 +272,7 @@ export const products: Product[] = [
 
   // Phantom Pants Collection
   {
-    id: 28,
+    id: 25,
     name: "EDL Phantom Pants",
     badge: "New",
     price: 35000,
@@ -316,7 +284,7 @@ export const products: Product[] = [
 
   // Java Jacket Collection
   {
-    id: 29,
+    id: 26,
     name: "EDL Java Jacket Set",
     badge: "Premium",
     price: 100000,
@@ -328,7 +296,7 @@ export const products: Product[] = [
 
   // Buggie Set Collection
   {
-    id: 30,
+    id: 27,
     name: "EDL Buggie Set Black",
     badge: "Best Seller",
     price: 80000,
@@ -340,7 +308,7 @@ export const products: Product[] = [
 
   // EDL Special Collection
   {
-    id: 31,
+    id: 28,
     name: "EDL Special Edition",
     badge: "Limited",
     price: 35000,
@@ -350,7 +318,7 @@ export const products: Product[] = [
     category: "EDL SPECIAL",
   },
   {
-    id: 32,
+    id: 29,
     name: "EDL Exclusive",
     badge: "Limited",
     price: 160000,
@@ -360,7 +328,7 @@ export const products: Product[] = [
     category: "EDL SPECIAL",
   },
   {
-    id: 33,
+    id: 30,
     name: "EDL Exclusive",
     badge: "Premium",
     price: 160000,
