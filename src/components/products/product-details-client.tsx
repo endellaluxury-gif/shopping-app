@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -15,6 +15,10 @@ import {
   Truck,
   Shield,
   RotateCcw,
+  ZoomIn,
+  X,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { SectionContainer } from "@/components/ui/section-container";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
@@ -34,12 +38,41 @@ export function ProductDetailsClient({ productId }: ProductDetailsClientProps) {
   const [product, setProduct] = useState<Product | null>(null);
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const [selectedSize, setSelectedSize] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("description");
   const [mediaType, setMediaType] = useState<"image" | "video">("video");
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
+  const [galleryIndex, setGalleryIndex] = useState(0);
 
-  // Check if product is in cart
-  const cartItem = state.items.find((item) => item.product.id === product?.id);
+  const sizes = ["SM", "MD", "LG", "XL", "2XL", "3XL"];
+
+  // Get all images for gallery - always ensure at least one image
+  const allImages = useMemo(() => {
+    if (!product) return [];
+
+    // If product has images array with items, use it
+    if (
+      product.images &&
+      Array.isArray(product.images) &&
+      product.images.length > 0
+    ) {
+      return product.images;
+    }
+
+    // Otherwise, use the single product.image if it exists
+    if (product.image) {
+      return [product.image];
+    }
+
+    // Fallback to empty array
+    return [];
+  }, [product]);
+
+  // Check if product is in cart (with same size)
+  const cartItem = state.items.find(
+    (item) => item.product.id === product?.id && item.size === selectedSize
+  );
   const isInCart = !!cartItem;
   const cartQuantity = cartItem?.quantity || 0;
 
@@ -49,6 +82,11 @@ export function ProductDetailsClient({ productId }: ProductDetailsClientProps) {
       const foundProduct = products.find((p) => p.id.toString() === productId);
       setProduct(foundProduct || null);
       setIsLoading(false);
+
+      // If product has no video, default to image mode
+      if (foundProduct && !foundProduct.video) {
+        setMediaType("image");
+      }
     }, 500);
 
     return () => clearTimeout(timer);
@@ -71,22 +109,104 @@ export function ProductDetailsClient({ productId }: ProductDetailsClientProps) {
     }
   };
 
+  const openGallery = (index?: number) => {
+    // Ensure we have images to show
+    if (allImages.length === 0) {
+      console.warn("No images available to open in gallery");
+      return;
+    }
+    // Use provided index, or fall back to selectedImage, or 0
+    const indexToUse =
+      index !== undefined ? index : selectedImage >= 0 ? selectedImage : 0;
+    // Ensure index is valid (clamp to valid range)
+    const validIndex = Math.max(0, Math.min(indexToUse, allImages.length - 1));
+    setGalleryIndex(validIndex);
+    setIsGalleryOpen(true);
+  };
+
+  const closeGallery = () => {
+    setIsGalleryOpen(false);
+  };
+
+  const nextImage = () => {
+    setGalleryIndex((prev) => (prev + 1) % allImages.length);
+  };
+
+  const prevImage = () => {
+    setGalleryIndex((prev) => (prev - 1 + allImages.length) % allImages.length);
+  };
+
+  // Handle keyboard navigation
+  useEffect(() => {
+    if (!isGalleryOpen || allImages.length === 0) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") {
+        setGalleryIndex(
+          (prev) => (prev - 1 + allImages.length) % allImages.length
+        );
+      } else if (e.key === "ArrowRight") {
+        setGalleryIndex((prev) => (prev + 1) % allImages.length);
+      } else if (e.key === "Escape") {
+        setIsGalleryOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isGalleryOpen, allImages.length]);
+
+  // Handle touch swipe
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe) {
+      nextImage();
+    }
+    if (isRightSwipe) {
+      prevImage();
+    }
+  };
+
   const handleAddToCart = () => {
     if (product) {
-      // Add the product to cart with the selected quantity
-      for (let i = 0; i < quantity; i++) {
-        addToCart(product);
+      if (!selectedSize) {
+        toast.error("Please select a size", {
+          description: "Size selection is required before adding to cart",
+        });
+        return;
       }
-      toast.success(`${quantity} ${product.name} added to cart!`, {
-        description: `₦${(
-          product.price * quantity
-        ).toLocaleString()} total • View cart to checkout`,
-        action: {
-          label: "View Cart",
-          onClick: () => (window.location.href = "/cart"),
-        },
-      });
-      console.log(`Added ${quantity} ${product.name} to cart`);
+      // Add the product to cart with the selected quantity and size
+      addToCart(product, selectedSize, quantity);
+      toast.success(
+        `${quantity} ${product.name} (${selectedSize}) added to cart!`,
+        {
+          description: `₦${(
+            product.price * quantity
+          ).toLocaleString()} total • View cart to checkout`,
+          action: {
+            label: "View Cart",
+            onClick: () => (window.location.href = "/cart"),
+          },
+        }
+      );
+      console.log(
+        `Added ${quantity} ${product.name} (${selectedSize}) to cart`
+      );
     }
   };
 
@@ -145,7 +265,16 @@ export function ProductDetailsClient({ productId }: ProductDetailsClientProps) {
             className="space-y-4"
           >
             {/* Main Media Display */}
-            <div className="relative aspect-square rounded-2xl overflow-hidden bg-gray-100">
+            <div
+              className="relative aspect-square rounded-2xl overflow-hidden bg-gray-100 group cursor-pointer"
+              onClick={() => {
+                // Open gallery if we have images (regardless of mediaType, since we're showing an image)
+                if (allImages.length > 0) {
+                  // Use current selectedImage or default to 0
+                  openGallery(selectedImage >= 0 ? selectedImage : 0);
+                }
+              }}
+            >
               <AnimatePresence mode="wait">
                 <motion.div
                   key={`${mediaType}-${selectedImage}`}
@@ -177,6 +306,17 @@ export function ProductDetailsClient({ productId }: ProductDetailsClientProps) {
                   )}
                 </motion.div>
               </AnimatePresence>
+
+              {/* Zoom/Expand Button - Only show for images (visual indicator) */}
+              {mediaType === "image" && (
+                <Button
+                  variant="secondary"
+                  size="icon"
+                  className="absolute bottom-4 right-4 bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
+                >
+                  <ZoomIn className="h-5 w-5" />
+                </Button>
+              )}
 
               {/* Badges */}
               <div className="absolute top-4 left-4 flex flex-col gap-2">
@@ -269,7 +409,11 @@ export function ProductDetailsClient({ productId }: ProductDetailsClientProps) {
                       setMediaType("image");
                       setSelectedImage(index);
                     }}
-                    className={`relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 border-2 transition-all ${
+                    onDoubleClick={() => {
+                      // Double-click to open gallery
+                      openGallery(index);
+                    }}
+                    className={`relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 border-2 transition-all cursor-pointer ${
                       mediaType === "image" && selectedImage === index
                         ? "border-[var(--primary)]"
                         : "border-gray-200 hover:border-gray-300"
@@ -371,8 +515,32 @@ export function ProductDetailsClient({ productId }: ProductDetailsClientProps) {
               </ul>
             </div>
 
-            {/* Quantity & Add to Cart */}
+            {/* Size Selection */}
             <div className="space-y-4">
+              <div>
+                <span className="font-medium text-gray-900 block mb-3">
+                  Size:
+                </span>
+                <div className="flex flex-wrap gap-2">
+                  {sizes.map((size) => (
+                    <Button
+                      key={size}
+                      variant={selectedSize === size ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => setSelectedSize(size)}
+                      className={`h-10 min-w-[60px] ${
+                        selectedSize === size
+                          ? "bg-[var(--primary)] text-white"
+                          : "border-gray-300 hover:border-[var(--primary)]"
+                      }`}
+                    >
+                      {size}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Quantity & Add to Cart */}
               <div className="flex items-center gap-4">
                 <span className="font-medium text-gray-900">Quantity:</span>
                 <div className="flex items-center border border-gray-300 rounded-lg">
@@ -567,6 +735,117 @@ export function ProductDetailsClient({ productId }: ProductDetailsClientProps) {
           </Card>
         </motion.div>
       </SectionContainer>
+
+      {/* Fullscreen Image Gallery Modal */}
+      <AnimatePresence>
+        {isGalleryOpen && allImages.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center"
+            onClick={closeGallery}
+          >
+            {/* Close Button */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute top-4 right-4 text-white hover:bg-white/20 z-10"
+              onClick={closeGallery}
+            >
+              <X className="h-6 w-6" />
+            </Button>
+
+            {/* Image Counter */}
+            <div className="absolute top-4 left-1/2 transform -translate-x-1/2 text-white text-sm z-10">
+              {galleryIndex + 1} / {allImages.length}
+            </div>
+
+            {/* Previous Button */}
+            {allImages.length > 1 && (
+              <Button
+                variant="ghost"
+                size="icon"
+                className="absolute left-4 text-white hover:bg-white/20 z-10"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  prevImage();
+                }}
+              >
+                <ChevronLeft className="h-8 w-8" />
+              </Button>
+            )}
+
+            {/* Next Button */}
+            {allImages.length > 1 && (
+              <Button
+                variant="ghost"
+                size="icon"
+                className="absolute right-4 text-white hover:bg-white/20 z-10"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  nextImage();
+                }}
+              >
+                <ChevronRight className="h-8 w-8" />
+              </Button>
+            )}
+
+            {/* Main Image */}
+            {allImages[galleryIndex] && (
+              <motion.div
+                key={galleryIndex}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.3 }}
+                className="relative w-full h-full flex items-center justify-center p-4"
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="relative w-full h-full max-w-7xl max-h-[90vh]">
+                  <Image
+                    src={allImages[galleryIndex]}
+                    alt={`${product?.name} - Image ${galleryIndex + 1}`}
+                    fill
+                    className="object-contain"
+                    priority
+                  />
+                </div>
+              </motion.div>
+            )}
+
+            {/* Thumbnail Strip (if multiple images) */}
+            {allImages.length > 1 && (
+              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 overflow-x-auto max-w-[90vw] px-4 py-2 bg-black/50 rounded-lg z-10">
+                {allImages.map((image, index) => (
+                  <button
+                    key={index}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setGalleryIndex(index);
+                    }}
+                    className={`relative w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden border-2 transition-all ${
+                      galleryIndex === index
+                        ? "border-white"
+                        : "border-transparent opacity-60 hover:opacity-100"
+                    }`}
+                  >
+                    <Image
+                      src={image}
+                      alt={`Thumbnail ${index + 1}`}
+                      fill
+                      className="object-cover"
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -5,6 +5,7 @@ export interface IOrderItem {
   name: string;
   price: number;
   quantity: number;
+  size?: string; // Size: SM, MD, LG, XL, 2XL, 3XL
   image: string;
   category: string;
 }
@@ -44,6 +45,7 @@ const OrderItemSchema = new Schema<IOrderItem>({
   name: { type: String, required: true },
   price: { type: Number, required: true },
   quantity: { type: Number, required: true },
+  size: { type: String }, // Optional size field
   image: { type: String, required: true },
   category: { type: String, required: true },
 });

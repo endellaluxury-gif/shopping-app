@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { StarRating } from "@/components/ui/star";
-import { ShoppingCart, Heart, Eye } from "lucide-react";
+import { ShoppingCart, Heart, Eye, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/contexts/CartContext";
@@ -43,8 +43,13 @@ export function ProductCard({
   onProductClick,
 }: ProductCardProps) {
   const [isWishlisted, setIsWishlisted] = useState(false);
+  const [showSizeModal, setShowSizeModal] = useState(false);
+  const [selectedSize, setSelectedSize] = useState<string>("");
+  const [modalQuantity, setModalQuantity] = useState(1);
   const { addToCart, removeFromCart, updateQuantity, state } = useCart();
   const router = useRouter();
+  
+  const sizes = ["SM", "MD", "LG", "XL", "2XL", "3XL"];
 
   // Debug log to check if cart context is available
   console.log(
@@ -54,10 +59,10 @@ export function ProductCard({
     !!addToCart
   );
 
-  // Check if product is in cart
-  const cartItem = state.items.find((item) => item.product.id === product.id);
-  const isInCart = !!cartItem;
-  const cartQuantity = cartItem?.quantity || 0;
+  // Check if product is in cart (any size)
+  const cartItems = state.items.filter((item) => item.product.id === product.id);
+  const isInCart = cartItems.length > 0;
+  const cartQuantity = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   const handleWishlistClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -74,9 +79,22 @@ export function ProductCard({
     e.preventDefault();
     e.stopPropagation();
     console.log("🛒 Add to cart clicked for:", product.name);
-    addToCart(product);
-    toast.success(`${product.name} added to cart!`, {
-      description: `₦${product.price.toLocaleString()} • View cart to checkout`,
+    // Show modal to select size and quantity
+    setShowSizeModal(true);
+    setSelectedSize("");
+    setModalQuantity(1);
+  };
+
+  const handleModalAddToCart = () => {
+    if (!selectedSize) {
+      toast.error("Please select a size", {
+        description: "Size selection is required",
+      });
+      return;
+    }
+    addToCart(product, selectedSize, modalQuantity);
+    toast.success(`${modalQuantity} ${product.name} (${selectedSize}) added to cart!`, {
+      description: `₦${(product.price * modalQuantity).toLocaleString()} • View cart to checkout`,
       duration: 4000,
       action: {
         label: "View Cart",
@@ -89,6 +107,7 @@ export function ProductCard({
         fontWeight: "500",
       },
     });
+    setShowSizeModal(false);
     onAddToCart?.(product);
   };
 
@@ -96,7 +115,17 @@ export function ProductCard({
     e.preventDefault();
     e.stopPropagation();
 
-    const newQuantity = cartQuantity + change;
+    // For products in cart, we need to handle size-specific items
+    // For simplicity, we'll show the modal if there are multiple sizes
+    if (cartItems.length > 1) {
+      setShowSizeModal(true);
+      return;
+    }
+    
+    const cartItem = cartItems[0];
+    if (!cartItem) return;
+
+    const newQuantity = cartItem.quantity + change;
     if (newQuantity <= 0) {
       removeFromCart(product.id);
       toast.success(`${product.name} removed from cart!`, {
@@ -266,6 +295,117 @@ export function ProductCard({
           </div>
         </div>
       </Card>
+
+      {/* Size Selection Modal */}
+      <AnimatePresence>
+        {showSizeModal && (
+          <div 
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+            onClick={() => setShowSizeModal(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              className="bg-white rounded-lg shadow-xl max-w-md w-full p-6"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold">Select Size & Quantity</h3>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setShowSizeModal(false)}
+                  className="h-8 w-8"
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
+
+              <div className="space-y-4">
+                {/* Product Info */}
+                <div className="flex gap-4">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-20 h-20 object-cover rounded-lg"
+                  />
+                  <div>
+                    <h4 className="font-medium">{product.name}</h4>
+                    <p className="text-sm text-gray-600">{product.category}</p>
+                    <p className="text-lg font-bold text-[#3BB77E]">
+                      ₦{product.price.toLocaleString()}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Size Selection */}
+                <div>
+                  <label className="block text-sm font-medium mb-2">Size *</label>
+                  <div className="flex flex-wrap gap-2">
+                    {sizes.map((size) => (
+                      <Button
+                        key={size}
+                        variant={selectedSize === size ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => setSelectedSize(size)}
+                        className={`min-w-[60px] ${
+                          selectedSize === size
+                            ? "bg-[var(--primary)] text-white"
+                            : "border-gray-300 hover:border-[var(--primary)]"
+                        }`}
+                      >
+                        {size}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Quantity Selection */}
+                <div>
+                  <label className="block text-sm font-medium mb-2">Quantity</label>
+                  <div className="flex items-center gap-4">
+                    <div className="flex items-center border border-gray-300 rounded-lg">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setModalQuantity(Math.max(1, modalQuantity - 1))}
+                        className="h-10 w-10"
+                      >
+                        <MinusIcon className="h-4 w-4" />
+                      </Button>
+                      <span className="px-4 py-2 min-w-[3rem] text-center">
+                        {modalQuantity}
+                      </span>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setModalQuantity(modalQuantity + 1)}
+                        className="h-10 w-10"
+                      >
+                        <PlusIcon className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    <span className="text-sm text-gray-600">
+                      Total: ₦{(product.price * modalQuantity).toLocaleString()}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Add to Cart Button */}
+                <Button
+                  onClick={handleModalAddToCart}
+                  className="w-full bg-[var(--primary)] hover:bg-[var(--primary)]/90"
+                  disabled={!selectedSize}
+                >
+                  <ShoppingCart className="h-4 w-4 mr-2" />
+                  Add to Cart
+                </Button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }

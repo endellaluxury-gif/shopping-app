@@ -57,7 +57,7 @@ export const products: Product[] = [
   },
   {
     id: 5,
-    name: "EDL Phantom Trousers Brown",
+    name: "EDL Unik Pant Set",
     badge: "New",
     price: 100000,
     rating: 4.6,
@@ -67,7 +67,7 @@ export const products: Product[] = [
   },
   {
     id: 6,
-    name: "EDL Phantom Trousers White",
+    name: "EDL Unik Pant Set",
     badge: "New",
     price: 100000,
     rating: 4.6,
@@ -110,13 +110,13 @@ export const products: Product[] = [
 
   {
     id: 10,
-    name: "EDL Royalty",
+    name: "EDL Special Set",
     badge: "Premium",
     price: 160000,
     rating: 4.9,
     reviews: 12,
     image: "/products/edl_royal3.jpg",
-    category: "EDL ROYALTY",
+    category: "EDL SPECIAL",
   },
   {
     id: 11,

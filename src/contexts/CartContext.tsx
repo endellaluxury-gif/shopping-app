@@ -6,6 +6,7 @@ import { Product } from "@/lib/products-data";
 export interface CartItem {
   product: Product;
   quantity: number;
+  size?: string; // Size: SM, MD, LG, XL, 2XL, 3XL
 }
 
 interface CartState {
@@ -16,7 +17,7 @@ interface CartState {
 }
 
 type CartAction =
-  | { type: "ADD_TO_CART"; payload: Product }
+  | { type: "ADD_TO_CART"; payload: { product: Product; size?: string; quantity?: number } }
   | { type: "REMOVE_FROM_CART"; payload: number }
   | {
       type: "UPDATE_QUANTITY";
@@ -37,19 +38,21 @@ const initialState: CartState = {
 function cartReducer(state: CartState, action: CartAction): CartState {
   switch (action.type) {
     case "ADD_TO_CART": {
+      const { product, size, quantity = 1 } = action.payload;
+      // Find existing item with same product AND size
       const existingItem = state.items.find(
-        (item) => item.product.id === action.payload.id
+        (item) => item.product.id === product.id && item.size === size
       );
 
       let newItems: CartItem[];
       if (existingItem) {
         newItems = state.items.map((item) =>
-          item.product.id === action.payload.id
-            ? { ...item, quantity: item.quantity + 1 }
+          item.product.id === product.id && item.size === size
+            ? { ...item, quantity: item.quantity + quantity }
             : item
         );
       } else {
-        newItems = [...state.items, { product: action.payload, quantity: 1 }];
+        newItems = [...state.items, { product, quantity, size }];
       }
 
       const totalItems = newItems.reduce((sum, item) => sum + item.quantity, 0);
@@ -157,7 +160,7 @@ function cartReducer(state: CartState, action: CartAction): CartState {
 
 interface CartContextType {
   state: CartState;
-  addToCart: (product: Product) => void;
+  addToCart: (product: Product, size?: string, quantity?: number) => void;
   removeFromCart: (productId: number) => void;
   updateQuantity: (productId: number, quantity: number) => void;
   clearCart: () => void;
@@ -188,14 +191,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem("endella-cart", JSON.stringify(state.items));
   }, [state.items]);
 
-  const addToCart = (product: Product) => {
-    console.log("🛒 Adding to cart:", product.name, product.price);
+  const addToCart = (product: Product, size?: string, quantity: number = 1) => {
+    console.log("🛒 Adding to cart:", product.name, product.price, "Size:", size, "Quantity:", quantity);
     console.log(
       "🛒 Current cart state before add:",
       state.items.length,
       "items"
     );
-    dispatch({ type: "ADD_TO_CART", payload: product });
+    dispatch({ type: "ADD_TO_CART", payload: { product, size, quantity } });
   };
 
   const removeFromCart = (productId: number) => {

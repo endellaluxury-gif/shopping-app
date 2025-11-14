@@ -74,14 +74,13 @@ export async function POST(request: NextRequest) {
       user: user._id,
       orderNumber: orderNumber,
       items: items.map((item: Record<string, unknown>) => ({
-        product: {
-          id: (item.product as Record<string, unknown>).id,
-          name: (item.product as Record<string, unknown>).name,
-          price: (item.product as Record<string, unknown>).price,
-          image: (item.product as Record<string, unknown>).image,
-          category: (item.product as Record<string, unknown>).category,
-        },
+        productId: (item.product as Record<string, unknown>).id,
+        name: (item.product as Record<string, unknown>).name,
+        price: (item.product as Record<string, unknown>).price,
         quantity: item.quantity,
+        size: item.size as string | undefined,
+        image: (item.product as Record<string, unknown>).image,
+        category: (item.product as Record<string, unknown>).category,
       })),
       totalAmount: totalAmount,
       status: "paid", // PayPal payments are immediately paid

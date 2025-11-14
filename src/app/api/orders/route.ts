@@ -65,11 +65,13 @@ export async function POST(request: NextRequest) {
             category: string;
           };
           quantity: number;
+          size?: string;
         }) => ({
           productId: item.product.id,
           name: item.product.name,
           price: item.product.price,
           quantity: item.quantity,
+          size: item.size,
           image: item.product.image,
           category: item.product.category,
         })

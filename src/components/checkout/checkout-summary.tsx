@@ -57,6 +57,7 @@ export function CheckoutSummary() {
                 </h4>
                 <p className="text-xs text-gray-600 mb-1">
                   {item.product.category}
+                  {item.size && <span className="ml-1 font-medium">• {item.size}</span>}
                 </p>
                 <div className="flex items-center space-x-1 mb-1">
                   <StarRating rating={item.product.rating} size="sm" />

@@ -51,7 +51,7 @@ export async function sendOrderConfirmationEmail(order: IOrder) {
                       <h4 style="margin: 0; font-size: 16px;">${item.name}</h4>
                       <p style="margin: 5px 0; color: #666; font-size: 14px;">${
                         item.category
-                      }</p>
+                      }${item.size ? ` • Size: ${item.size}` : ""}</p>
                        <p style="margin: 0; font-weight: bold; color: #3BB77E;">₦${item.price.toLocaleString()} x ${
                     item.quantity
                   }</p>
@@ -151,7 +151,7 @@ export async function sendOrderConfirmationEmail(order: IOrder) {
                       <h4 style="margin: 0; font-size: 16px;">${item.name}</h4>
                       <p style="margin: 5px 0; color: #666; font-size: 14px;">${
                         item.category
-                      }</p>
+                      }${item.size ? ` • Size: ${item.size}` : ""}</p>
                        <p style="margin: 0; font-weight: bold; color: #3BB77E;">₦${item.price.toLocaleString()} x ${
                     item.quantity
                   }</p>

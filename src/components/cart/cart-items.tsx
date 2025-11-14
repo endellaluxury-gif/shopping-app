@@ -50,7 +50,7 @@ export function CartItems() {
     <div className="space-y-4">
       {state.items.map((item, index) => (
         <motion.div
-          key={item.product.id}
+          key={`${item.product.id}-${item.size || 'no-size'}-${index}`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
@@ -82,6 +82,7 @@ export function CartItems() {
                     </h3>
                     <p className="text-sm text-gray-600 mb-2">
                       {item.product.category}
+                      {item.size && <span className="ml-2 font-medium">• Size: {item.size}</span>}
                     </p>
 
                     {/* Rating */}
